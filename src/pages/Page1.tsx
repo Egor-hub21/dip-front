@@ -1,13 +1,14 @@
 // src/pages/Page1.tsx
-import React from 'react'
-import { Box, Text } from '@chakra-ui/react'
+import React from 'react';
+import { Box, Heading } from '@chakra-ui/react';
 
-const Page1 = () => {
+const Page1: React.FC = () => {
   return (
-    <Box p={8}>
-      <Text fontSize="3xl">Welcome to Page 1</Text>
+    <Box>
+      <Heading>Page 1</Heading>
+      <p>Welcome to Page 1!</p>
     </Box>
-  )
-}
+  );
+};
 
-export default Page1
+export default Page1;

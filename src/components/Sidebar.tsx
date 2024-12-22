@@ -1,31 +1,29 @@
 // src/components/Sidebar.tsx
-import { Box, VStack, Text } from '@chakra-ui/react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Box, VStack, Text, Link } from '@chakra-ui/react';
+import { Link as RouterLink } from 'react-router-dom';
 
-const Sidebar = () => {
+const Sidebar: React.FC = () => {
   return (
     <Box
-      position="fixed"
-      left={0}
-      top={0}
-      w="250px"
-      h="100vh"
+      width="250px"
       bg="teal.500"
       color="white"
+      height="100vh"
       p={4}
-      boxShadow="lg"
+      display={{ base: 'none', md: 'block' }} // Скрыть меню на маленьких экранах
     >
       <VStack align="start" spacing={6}>
         <Text fontSize="2xl" fontWeight="bold">My App</Text>
-        <Link to="/page1">
+        <Link as={RouterLink} to="/">
           <Text>Page 1</Text>
         </Link>
-        <Link to="/page2">
+        <Link as={RouterLink} to="/page2">
           <Text>Page 2</Text>
         </Link>
       </VStack>
     </Box>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;
