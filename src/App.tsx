@@ -10,7 +10,12 @@ const App = () => {
   return (
     <Router>
       <Sidebar />
-      <Box ml={{ base: 0, md: '250px' }} p={4}>
+      <Box
+        ml={{ base: '200px', md: '250px' }} // отступ от бокового меню для всех экранов
+        p={4}
+        minHeight="100vh" // добавляем минимальную высоту для контента
+        transition="margin-left 0.3s ease" // плавное изменение отступа
+      >
         <Routes>
           <Route path="/page1" element={<Page1 />} />
           <Route path="/page2" element={<Page2 />} />
