@@ -2,9 +2,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from '../pages/Layout';
-import Page1 from '../pages/Page1';
-import Page2 from '../pages/Page2';
+import RegimeFilesPage from '../pages/RegimeFilesPage';
+
 import ErrorPage from '../pages/ErrorPage';
+import Home from '../pages/Home';
+import SchemePage from '../pages/SchemePage';
 
 const AppRouter: React.FC = () => {
   return (
@@ -12,8 +14,9 @@ const AppRouter: React.FC = () => {
       <Routes>
         {/* Страницы с боковым меню */}
         <Route path="/" element={<Layout showSidebar={true} />}>
-          <Route index element={<Page1 />} />
-          <Route path="page2" element={<Page2 />} />
+          <Route index element={<Home />} /> {/* Главная страница */}
+          <Route path="files" element={<RegimeFilesPage />} />
+          <Route path="schemes" element={<SchemePage />} />
         </Route>
 
         {/* Страница без бокового меню */}
