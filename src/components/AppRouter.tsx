@@ -13,7 +13,7 @@ const AppRouter: React.FC = () => {
     <Router>
       <Routes>
         {/* Страницы с боковым меню */}
-        <Route path="/" element={<Layout showSidebar={true} />}>
+        <Route path="/" element={<Layout />}>
           <Route index element={<Home />} /> {/* Главная страница */}
           <Route path="files" element={<RegimeFilesPage />} />
           <Route path="schemes" element={<SchemePage />} />

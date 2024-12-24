@@ -1,21 +1,28 @@
 // src/pages/Layout.tsx
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { Box, Flex } from '@chakra-ui/react';
-import Sidebar from '../components/Sidebar';
+import { Sidenav, SidenavContainer, SidenavItem, SidenavProvider } from '../components/ui/sidenav';
+import { Navbar } from '../components/ui/navbar/navbar';
+import { AiOutlineCloudUpload, AiOutlineFileText, AiOutlineHome } from 'react-icons/ai';
 
-interface LayoutProps {
-  showSidebar: boolean; // Флаг для отображения бокового меню
-}
 
-const Layout: React.FC<LayoutProps> = ({ showSidebar }) => {
+const Layout: React.FC = () => {
+  const navItems: SidenavItem[] = [
+    { icon: AiOutlineHome, label: "Главная", to: "" },
+    { icon: AiOutlineFileText, label: "Данные схем", to: "schemes" },
+    { icon: AiOutlineCloudUpload, label: "Файлы", to: "files" },
+  ];
   return (
-    <Flex height="100vh">
-      {showSidebar && <Sidebar />} {/* Показываем меню, если showSidebar = true */}
-      <Box flex="1" p={4} overflowY="auto">
-        <Outlet /> {/* Контент текущего маршрута */}
-      </Box>
-    </Flex>
+    <SidenavProvider>
+      <SidenavContainer sidenav={<Sidenav navItems={navItems} />}>
+        <main>
+          <div className="Layout">
+            <Navbar />
+            <Outlet />
+          </div>
+        </main>
+      </SidenavContainer>
+    </SidenavProvider>
   );
 };
 
