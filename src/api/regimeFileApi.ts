@@ -4,14 +4,14 @@ import { RegimeFileResponse } from '../types/regimeFile';
 const apiUrl = 'https://localhost:7243/api/regimefile';
 
 // Функция для загрузки файла
-export const uploadFile = async (file: FormData) => {
+export const uploadFile = async (file: FormData) : Promise<string> => {
   try {
     const response = await axios.post(`${apiUrl}/upload`, file, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
-    return response.data; // { FilePath: string }
+    return response.data; 
   } catch (error) {
     console.error('Error uploading file:', error);
     throw error;

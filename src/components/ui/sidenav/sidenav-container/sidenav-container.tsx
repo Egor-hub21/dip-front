@@ -33,7 +33,7 @@ export function SidenavContainer({ children, sidenav }: SidenavContainerProps) {
           {sidenav}
         </Box>
       </GridItem>
-      <GridItem as="main" area="main" p={{ base: 6, md: 8 }}>
+      <GridItem as="main" area="main" p={{ base: 6, md: 2 }}>
         {children}
       </GridItem>
     </Grid>

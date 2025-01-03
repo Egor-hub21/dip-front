@@ -7,6 +7,8 @@ import RegimeFilesPage from '../pages/RegimeFilesPage';
 import ErrorPage from '../pages/ErrorPage';
 import Home from '../pages/Home';
 import SchemePage from '../pages/SchemePage';
+import CalculationGroupsPage from '../pages/CalculationGroupsPage';
+import CalculationGroupPage from '../pages/CalculationGroupPage';
 
 const AppRouter: React.FC = () => {
   return (
@@ -17,6 +19,8 @@ const AppRouter: React.FC = () => {
           <Route index element={<Home />} /> {/* Главная страница */}
           <Route path="files" element={<RegimeFilesPage />} />
           <Route path="schemes" element={<SchemePage />} />
+          <Route path="calculation-groups" element={<CalculationGroupsPage />} />
+          <Route path="calculation-groups/:groupId" element={<CalculationGroupPage />} />
         </Route>
 
         {/* Страница без бокового меню */}

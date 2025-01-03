@@ -21,14 +21,25 @@ export function Sidenav({ navItems }: SidenavProps) {
   return (
     <React.Fragment>
       <VStack spacing="5" as="nav" display={{ base: "none", md: "flex" }}>
-        <Icon as={VscSymbolEvent} boxSize={8} /> {/*OR PUT YOUR LOGO HERE */}
+        <Icon
+          as={VscSymbolEvent}
+          boxSize={8}
+          bg="blue.500"
+          color={"white"}
+          border="2px"
+          borderColor="blue.900"
+          rounded="md"
+        />{" "}
+        {/*OR PUT YOUR LOGO HERE */}
         <SidenavItems navItems={navItems} />
       </VStack>
       <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>Навигация</DrawerHeader>
+          <DrawerHeader bgColor={"blue.500"} color={"white"}>
+            Навигация
+          </DrawerHeader>
           <DrawerBody>
             <SidenavItems navItems={navItems} mode="over" />
           </DrawerBody>

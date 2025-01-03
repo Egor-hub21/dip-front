@@ -33,7 +33,7 @@ export function SidenavItems({ navItems, mode = "semi" }: SidenavItemsProps) {
         _hover={{
           bg: "gray.200"
         }}
-        _activeLink={{ bg: "teal.700", color: "white" }}
+        _activeLink={{ bg: "blue.500", color: "white" }}
         w="full"
         borderRadius="md"
       >
@@ -54,7 +54,7 @@ export function SidenavItems({ navItems, mode = "semi" }: SidenavItemsProps) {
           key={index}
           as={NavLink}
           _focus={{ bg: "gray.100" }}
-          _activeLink={{ boxShadow: "md", bg: "teal.700", color: "white" }}
+          _activeLink={{ boxShadow: "md", bg: "blue.500", color: "white" }}
           bg="transparent"
           aria-label={item.label}
           borderRadius="xl"

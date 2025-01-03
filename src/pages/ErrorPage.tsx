@@ -17,13 +17,13 @@ const ErrorPage: React.FC = () => {
         <Heading as="h1" size="4xl" color="red.500">
           404
         </Heading>
-        <Text fontSize="xl" color="gray.600">
+        <Text fontSize="xl" >
           Sorry, the page you are looking for does not exist.
         </Text>
         <Button
           as={Link}
           to="/"
-          colorScheme="teal"
+          colorScheme="blue"
           size="lg"
           variant="solid"
           width="200px"
