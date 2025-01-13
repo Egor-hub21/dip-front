@@ -8,11 +8,14 @@ import { CalculationFullResponse, CalculationRequest } from "../types/Calculatio
 
 const apiUrl = "https://localhost:7243/api";
 
+const apiCalculationGroupUrl = `${apiUrl}/calculationgroup`;
+const apiCalculationUrl = `${apiUrl}/calculation`;
+
 export const createCalculationGroup = async (
   payload: CalculationGroupRequest
 ): Promise<string> => {
   try {
-    const response = await axios.post(`${apiUrl}/calculationgroup`, payload);
+    const response = await axios.post(apiCalculationGroupUrl, payload);
     return response.data;
   } catch (error) {
     console.error("Error creating CalculationGroup:", error);
@@ -20,12 +23,30 @@ export const createCalculationGroup = async (
   }
 };
 
+export const deleteCalculationGroup = async (id: string): Promise<void> => {
+  try {
+    await axios.delete(`${apiCalculationGroupUrl}/${id}`);
+  } catch (error) {
+    console.error("Error deleting CalculationGroup:", error);
+    throw new Error("Error deleting CalculationGroup");
+  }
+};
+
+export const deleteRangeCalculationGroup = async (ids: string[]): Promise<void> => {
+  try {
+    await axios.delete(`${apiCalculationGroupUrl}`, { data: ids });
+  } catch (error) {
+    console.error("Error deleting CalculationGroup:", error);
+    throw new Error("Error deleting CalculationGroup");
+  }
+}
+
 export const fetchCalculationGroups = async (): Promise<
   CalculationGroupLightResponse[]
 > => {
   try {
     const response = await axios.get<CalculationGroupLightResponse[]>(
-      `${apiUrl}/calculationgroup`
+      apiCalculationGroupUrl
     );
     return response.data;
   } catch (error) {
@@ -38,7 +59,7 @@ export const fetchCalculationGroupDetails = async (
   id: string
 ): Promise<CalculationGroupFullResponse> => {
   const response = await axios.get<CalculationGroupFullResponse>(
-    `${apiUrl}/calculationgroup/${id}`
+    `${apiCalculationGroupUrl}/${id}`
   );
   return response.data;
 };
@@ -49,7 +70,7 @@ export const addCalculationToGroup = async (
 ): Promise<string> => {
   try {
     const response = await axios.post(
-      `${apiUrl}/calculationgroup/${groupId}/calculations`,
+      `${apiCalculationGroupUrl}/${groupId}/calculations`,
       calculation
     );
     return response.data;
@@ -64,7 +85,7 @@ export const startCalculation = async (
 ): Promise<void> => {
   try {
     const response = await axios.put(
-      `${apiUrl}/calculation/${calculationId}/start`
+      `${apiCalculationUrl}/${calculationId}/start`
     );
     if (response.status !== 200) {
       throw new Error(`Ошибка запуска расчета: ${response.status}`);
@@ -80,7 +101,7 @@ export const getCalculation = async (
 ): Promise<CalculationFullResponse> => {
   try {
     const response = await axios.get<CalculationFullResponse>(
-      `${apiUrl}/calculation/${id}`
+      `${apiCalculationUrl}/${id}`
     );
     return response.data;
   } catch (error) {
@@ -88,3 +109,22 @@ export const getCalculation = async (
     throw new Error("Ошибка получения расчета");
   }
 };
+
+export const deleteCalculation = async (id: string): Promise<void> => {
+  try {
+    await axios.delete(`${apiCalculationUrl}/${id}`);
+  } catch (error) {
+    console.error("Error deleting CalculationGroup:", error);
+    throw new Error("Error deleting CalculationGroup");
+  }
+};
+
+export const deleteRangeCalculation = async (ids: string[]): Promise<void> => {
+  try {
+    await axios.delete(`${apiCalculationUrl}`, { data: ids });
+  } catch (error) {
+    console.error("Error deleting CalculationGroup:", error);
+    throw new Error("Error deleting CalculationGroup");
+  }
+}
+

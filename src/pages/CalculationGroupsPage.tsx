@@ -203,7 +203,7 @@ const CalculationGroupsPage: React.FC = () => {
       <FormControl>
       <FormLabel htmlFor="my-select">Выберите схему</FormLabel>
       <Select
-        aria-labelledby="Выберите сечение"
+        aria-labelledby="Выберите схему"
         value={schemeId}
         onChange={(e) => handleSchemeChange(e.target.value)}
         placeholder={availableSchemes.length > 0 ? "Выберите схему" : "Нет доступных схем"}
