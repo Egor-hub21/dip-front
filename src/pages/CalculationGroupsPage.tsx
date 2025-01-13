@@ -169,7 +169,7 @@ const CalculationGroupsPage: React.FC = () => {
   };
 
   const handleContinue = () => {
-    if (currentModelStep < 3) {
+    if (currentModelStep < modalWindows.length - 1) {
       setCurrentModelStep(currentModelStep + 1);
     } else {
       addGroup();
