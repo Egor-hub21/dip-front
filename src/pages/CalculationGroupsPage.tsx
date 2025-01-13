@@ -39,6 +39,14 @@ import {
   StepTitle,
   StepDescription,
   StepSeparator,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverHeader,
+  PopoverBody,
+  PopoverFooter,
 } from "@chakra-ui/react";
 import {
   CalculationGroupRequest,
@@ -47,6 +55,7 @@ import {
 import { getAllSchemes, getSchemeById } from "../api/schemeDataApi"; // Import the method
 import {
   createCalculationGroup,
+  deleteCalculationGroup,
   fetchCalculationGroups,
 } from "../api/calculationGroupApi"; // Import the create function and fetch function
 import {
@@ -79,8 +88,11 @@ const CalculationGroupsPage: React.FC = () => {
   const [selectedSchemeData, setSelectedSchemeData] =
     useState<SchemeDataFullResponse | null>(null); // State for full scheme data
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const {
+    isOpen: isOpenAddWindow,
+    onOpen: onOpenAddWindow,
+    onClose: onCloseAddWindow,
+  } = useDisclosure();
 
   const availableSections: Section[] = selectedSchemeData
     ? selectedSchemeData.sections
@@ -256,6 +268,20 @@ const CalculationGroupsPage: React.FC = () => {
       setCurrentModelStep(currentModelStep - 1);
     }
   };
+  const [popoverOpenIndex, setPopoverOpenIndex] = useState<number | null>(null); 
+
+
+  const handleDeleteGroup = async (groupId: string) => {
+    try {
+      await deleteCalculationGroup(groupId); 
+      setGroups(groups.filter((group) => group.id !== groupId));
+      setPopoverOpenIndex(null);
+    } catch (error) {
+      console.error("Ошибка при удалении группы:", error);
+    }
+  };
+  
+
 
   return (
     <VStack spacing={4} align="stretch">
@@ -265,7 +291,7 @@ const CalculationGroupsPage: React.FC = () => {
       <Flex borderWidth="1px" borderRadius="lg" overflow="hidden" mt={10} p={4}>
         <Tooltip label="Добавить группу" placement="bottom">
           <Button
-            onClick={onOpen}
+            onClick={onOpenAddWindow}
             variant="solid"
             aria-label="Add group"
             colorScheme="blue"
@@ -291,23 +317,58 @@ const CalculationGroupsPage: React.FC = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {groups.map((group) => (
+            {groups.map((group, index) => (
               <Tr key={group.id}>
                 <Td>{group.name}</Td>
                 <Td>{group.description}</Td>
                 <Td>
-                  <Link as={NavLink} to={`/calculation-groups/${group.id}`}>
-                    <Button
-                      variant="outline"
-                      aria-label="Open group"
-                      borderColor="blue.500"
-                      textColor={"blue.500"}
-                      borderRadius="md"
-                      size="xs"
-                    >
-                      Открыть
-                    </Button>
-                  </Link>
+                  <ButtonGroup>
+                    <Link as={NavLink} to={`/calculation-groups/${group.id}`}>
+                      <Button
+                        variant="outline"
+                        aria-label="Open group"
+                        borderColor="blue.500"
+                        textColor={"blue.500"}
+                        borderRadius="md"
+                        size="xs"
+                      >
+                        Открыть
+                      </Button>
+                    </Link>
+<Popover isOpen={popoverOpenIndex === index} onClose={() => setPopoverOpenIndex(null)}>
+  <PopoverTrigger>
+    <Button
+      variant="outline"
+      aria-label="Open group"
+      borderColor="red.500"
+      textColor={"red.500"}
+      borderRadius="md"
+      size="xs"
+      onClick={() => setPopoverOpenIndex(index)} // Открываем Popover для конкретной группы
+    >
+      Удалить
+    </Button>
+  </PopoverTrigger>
+  <PopoverContent>
+    <PopoverArrow />
+    <PopoverCloseButton />
+    <PopoverHeader fontSize="sm">Подтверждение</PopoverHeader>
+    <PopoverBody>
+      <Text fontSize="sm">
+        Вы уверены, что хотите удалить эту группу?
+      </Text>
+    </PopoverBody>
+    <PopoverFooter display='flex' justifyContent='flex-end'>
+      <Button colorScheme="red" ml={2} size="xs" width="50px" onClick={() => handleDeleteGroup(group.id)}>
+        Да
+      </Button>
+      <Button ml={2} size="xs" width="50px" onClick={() => setPopoverOpenIndex(null)}>
+        Нет
+      </Button>
+    </PopoverFooter>
+  </PopoverContent>
+</Popover>
+                  </ButtonGroup>
                 </Td>
               </Tr>
             ))}
@@ -316,48 +377,56 @@ const CalculationGroupsPage: React.FC = () => {
       </TableContainer>
 
       {/* Модальное окно */}
-      <Modal isOpen={isOpen} onClose={onClose} size="3xl" >
+      <Modal isOpen={isOpenAddWindow} onClose={onCloseAddWindow} size="3xl">
         <ModalOverlay />
-        <ModalContent height = "80vh">
-          <ModalHeader fontSize="2xl" fontWeight="bold">Добавить группу расчетов</ModalHeader>
+        <ModalContent height="80vh">
+          <ModalHeader fontSize="2xl" fontWeight="bold">
+            Добавить группу расчетов
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-          <Stepper size="md" index={currentModelStep} mb={4}  p={4} >
-            {steps.map((step, index) => (
-              <Step key={index}>
-                <StepIndicator>
-                  <StepStatus
-                    complete={<StepIcon />}
-                    incomplete={<StepNumber />}
-                    active={<StepNumber />}
-                  />
-                </StepIndicator>
+            <Stepper size="md" index={currentModelStep} mb={4} p={4}>
+              {steps.map((step, index) => (
+                <Step key={index}>
+                  <StepIndicator>
+                    <StepStatus
+                      complete={<StepIcon />}
+                      incomplete={<StepNumber />}
+                      active={<StepNumber />}
+                    />
+                  </StepIndicator>
 
-                <Box flexShrink="0">
-                  <StepTitle>{step.title}</StepTitle>
-                  <StepDescription>{step.description}</StepDescription>
-                </Box>
+                  <Box flexShrink="0">
+                    <StepTitle>{step.title}</StepTitle>
+                    <StepDescription>{step.description}</StepDescription>
+                  </Box>
 
-                <StepSeparator />
-              </Step>
-            ))}
-          </Stepper>
-            {modalWindows.find((modal) => modal.key === currentModelStep.toString())}
+                  <StepSeparator />
+                </Step>
+              ))}
+            </Stepper>
+            {modalWindows.find(
+              (modal) => modal.key === currentModelStep.toString()
+            )}
           </ModalBody>
           <ModalFooter>
             <ButtonGroup>
               <Button onClick={handlePrev} isDisabled={currentModelStep === 0}>
                 Назад
               </Button>
-              {
-                currentModelStep < modalWindows.length-1 ? (
-                  <Button onClick={handleNext}>Далее</Button>
-                ) : (
-                  <Button colorScheme="blue" onClick={() => {handleContinue(); onClose();}}>
-                    Добавить
-                  </Button>
-                )
-              }
+              {currentModelStep < modalWindows.length - 1 ? (
+                <Button onClick={handleNext}>Далее</Button>
+              ) : (
+                <Button
+                  colorScheme="blue"
+                  onClick={() => {
+                    handleContinue();
+                    onCloseAddWindow();
+                  }}
+                >
+                  Добавить
+                </Button>
+              )}
             </ButtonGroup>
           </ModalFooter>
         </ModalContent>
