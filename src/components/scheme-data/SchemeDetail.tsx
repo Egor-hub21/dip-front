@@ -201,10 +201,20 @@ const SchemeDetail: React.FC<SchemeDetailProps> = ({ schemeId }) => {
                       <Table variant="striped" colorScheme="blackAlpha">
                         <Thead position="sticky" top="0" bg="white" zIndex="1">
                           <Tr>
-                            <Th width="10%" bg={"gray.500"} textColor={"white"} isNumeric>
+                            <Th
+                              width="10%"
+                              bg={"gray.500"}
+                              textColor={"white"}
+                              textAlign="left"
+                            >
                               Номер
                             </Th>
-                            <Th width="90%" bg={"gray.500"} textColor={"white"}>
+                            <Th
+                              width="90%"
+                              bg={"gray.500"}
+                              textColor={"white"}
+                              textAlign="left"
+                            >
                               Название
                             </Th>
                           </Tr>
@@ -212,8 +222,13 @@ const SchemeDetail: React.FC<SchemeDetailProps> = ({ schemeId }) => {
                         <Tbody>
                           {scheme.sections.map((section) => (
                             <Tr key={section.id}>
-                              <Td isNumeric>{section.number}</Td>
-                              <Td style={{ whiteSpace: "normal" }}>{section.name}</Td>
+                              <Td textAlign="left">{section.number}</Td>
+                              <Td
+                                textAlign="left"
+                                style={{ whiteSpace: "normal" }}
+                              >
+                                {section.name}
+                              </Td>
                             </Tr>
                           ))}
                         </Tbody>
@@ -234,10 +249,20 @@ const SchemeDetail: React.FC<SchemeDetailProps> = ({ schemeId }) => {
                       <Table variant="striped" colorScheme="blackAlpha">
                         <Thead position="sticky" top="0" bg="white" zIndex="1">
                           <Tr>
-                            <Th width="10%" bg={"gray.500"} textColor={"white"} isNumeric>
+                            <Th
+                              width="10%"
+                              bg={"gray.500"}
+                              textColor={"white"}
+                              textAlign="left"
+                            >
                               Номер
                             </Th>
-                            <Th width="90%" bg={"gray.500"} textColor={"white"}>
+                            <Th
+                              width="90%"
+                              bg={"gray.500"}
+                              textColor={"white"}
+                              textAlign="left"
+                            >
                               Название
                             </Th>
                           </Tr>
@@ -245,8 +270,13 @@ const SchemeDetail: React.FC<SchemeDetailProps> = ({ schemeId }) => {
                         <Tbody>
                           {scheme.regulators.map((regulator) => (
                             <Tr key={regulator.id}>
-                              <Td isNumeric>{regulator.number}</Td>
-                              <Td style={{ whiteSpace: "normal" }}>{regulator.name}</Td>
+                              <Td textAlign="left">{regulator.number}</Td>
+                              <Td
+                                textAlign="left"
+                                style={{ whiteSpace: "normal" }}
+                              >
+                                {regulator.name}
+                              </Td>
                             </Tr>
                           ))}
                         </Tbody>
@@ -267,13 +297,44 @@ const SchemeDetail: React.FC<SchemeDetailProps> = ({ schemeId }) => {
                       <Table variant="striped" colorScheme="blackAlpha">
                         <Thead position="sticky" top="0" bg="white" zIndex="1">
                           <Tr>
-                            <Th width="33%" bg={"gray.500"} textColor={"white"}>
+                            <Th
+                              textAlign="left"
+                              width="33%"
+                              bg={"gray.500"}
+                              textColor={"white"}
+                            >
                               Название
                             </Th>
-                            <Th width="33%" bg={"gray.500"} textColor={"white"}>
+                            <Th
+                              textAlign="center"
+                              width="33%"
+                              bg={"gray.500"}
+                              textColor={"white"}
+                            >
                               Регуляторы
+                              <Th
+                                textAlign="left"
+                                width="20%"
+                                bg={"gray.500"}
+                                textColor={"white"}
+                              >
+                                Номер
+                              </Th>
+                              <Th
+                                textAlign="left"
+                                width="80%"
+                                bg={"gray.500"}
+                                textColor={"white"}
+                              >
+                                Название
+                              </Th>
                             </Th>
-                            <Th width="33%" bg={"gray.500"} textColor={"white"}>
+                            <Th
+                              width="33%"
+                              bg={"gray.500"}
+                              textColor={"white"}
+                              textAlign="left"
+                            >
                               Действия
                             </Th>
                           </Tr>
@@ -281,23 +342,37 @@ const SchemeDetail: React.FC<SchemeDetailProps> = ({ schemeId }) => {
                         <Tbody>
                           {scheme.regulationUnits.map((regulationUnit) => (
                             <Tr key={regulationUnit.id}>
-                              <Td style={{ whiteSpace: "normal" }}>{regulationUnit.name}</Td>
-                              <Td>
-                                <List spacing={3}>
-                                  {regulationUnit.regulators.map(
-                                    (regulator) => (
-                                      <ListItem
-                                        key={regulator.id}
-                                        fontSize="lg"
-                                        style={{ whiteSpace: "normal" }}
-                                      >
-                                        {regulator.name}
-                                      </ListItem>
-                                    )
-                                  )}
-                                </List>
+                              <Td
+                                textAlign="left"
+                                style={{ whiteSpace: "normal" }}
+                              >
+                                {regulationUnit.name}
                               </Td>
-                              <Td>
+
+                              {regulationUnit.regulators.map((regulator) => (
+                                <Box
+                                  key={regulator.id}
+                                  fontSize="lg"
+                                  //style={{ whiteSpace: "normal" }}
+                                >
+                                  <Td
+                                    textAlign="left"
+                                    width="20%"
+                                    // style={{ whiteSpace: "normal" }}
+                                  >
+                                    {regulator.number}
+                                  </Td>
+                                  <Td
+                                    textAlign="left"
+                                    width="80%"
+                                    // style={{ whiteSpace: "normal" }}
+                                  >
+                                    {regulator.name}
+                                  </Td>
+                                </Box>
+                              ))}
+
+                              <Td textAlign="left">
                                 <Button
                                   onClick={() =>
                                     openRegulatorWithUnitModal(
