@@ -198,7 +198,7 @@ const percent = `${(100/3)}%`
                       Добавить
                     </Button>
                     <TableContainer maxH="90ch" overflowY="auto">
-                      <Table variant="striped" colorScheme="blackAlpha">
+                      <Table variant="simple" colorScheme={"gray.400"}>
                         <Thead position="sticky" top="0" bg="white" zIndex="1">
                           <Tr>
                             <Th
@@ -206,6 +206,7 @@ const percent = `${(100/3)}%`
                               bg={"gray.500"}
                               textColor={"white"}
                               textAlign="left"
+                              border={"1px solid"}
                             >
                               Номер
                             </Th>
@@ -214,6 +215,7 @@ const percent = `${(100/3)}%`
                               bg={"gray.500"}
                               textColor={"white"}
                               textAlign="left"
+                              border={"1px solid"}
                             >
                               Название
                             </Th>
@@ -246,7 +248,7 @@ const percent = `${(100/3)}%`
                       Добавить
                     </Button>
                     <TableContainer maxH="90ch" overflowY="auto">
-                      <Table variant="striped" colorScheme="blackAlpha">
+                      <Table  variant="simple" colorScheme={"gray.400"}>
                         <Thead position="sticky" top="0" bg="white" zIndex="1">
                           <Tr>
                             <Th
@@ -254,6 +256,7 @@ const percent = `${(100/3)}%`
                               bg={"gray.500"}
                               textColor={"white"}
                               textAlign="left"
+                              border={"1px solid"}
                             >
                               Номер
                             </Th>
@@ -262,6 +265,7 @@ const percent = `${(100/3)}%`
                               bg={"gray.500"}
                               textColor={"white"}
                               textAlign="left"
+                              border={"1px solid"}
                             >
                               Название
                             </Th>
@@ -294,7 +298,7 @@ const percent = `${(100/3)}%`
                       Добавить
                     </Button>
                     <TableContainer maxH="90ch" overflowY="auto" >
-                      <Table variant="striped" colorScheme="blackAlpha">
+                      <Table variant="simple" colorScheme={"gray.400"}>
                         <Thead position="sticky" top="0" bg="white" zIndex="1">
                           <Tr>
                             <Th
@@ -303,6 +307,7 @@ const percent = `${(100/3)}%`
                               bg={"gray.500"}
                               textColor={"white"}
                               rowSpan={2}
+                              border={"1px solid"}
                             >
                               Название
                             </Th>
@@ -312,6 +317,7 @@ const percent = `${(100/3)}%`
                               bg={"gray.500"}
                               textColor={"white"}
                               colSpan={2}
+                              border={"1px solid"}
                             >
                               Регуляторы
                             </Th>
@@ -321,6 +327,7 @@ const percent = `${(100/3)}%`
                               textColor={"white"}
                               textAlign="left"
                               rowSpan={2}
+                              border={"1px solid"}
                             >
                               Действия
                             </Th>
@@ -331,6 +338,7 @@ const percent = `${(100/3)}%`
                               width="10%"
                               bg={"gray.500"}
                               textColor={"white"}
+                              border={"1px solid"}
                             >
                               Номер
                             </Th>
@@ -339,60 +347,28 @@ const percent = `${(100/3)}%`
                               width="90%"
                               bg={"gray.500"}
                               textColor={"white"}
+                               border={"1px solid"}
                             >
                               Название
                             </Th>
                           </Tr>
                         </Thead>
-                        <Tbody>
-                          {scheme.regulationUnits.map((regulationUnit) => (
-                            <Tr key={regulationUnit.id}>
-                              <Td
-                                textAlign="left"
-                                style={{ whiteSpace: "normal" }}
-                                width={percent}
-                                //rowSpan={regulationUnit.regulators.length}
-                              >
-                                {regulationUnit.name}
-                              </Td>
-                              <Td
-                                textAlign="left"
-                                style={{ whiteSpace: "normal" }}
-                                width={percent}
-                                colSpan={2}
-                              >
-                                {regulationUnit.regulators.map((regulator) => (
-                                  <Box
-                                    key={regulator.id}
-                                    style={{ whiteSpace: "normal" }}
-                                    width="100%"
-                                  >
-                                    <Td
-                                      textAlign="left"
-                                      width="10%"
-                                      style={{ whiteSpace: "normal" }}
-                                    >
-                                      {regulator.number}
-                                    </Td>
-                                    <Td
-                                      textAlign="left"
-                                      width="90%"
-                                      style={{ whiteSpace: "normal" }}
-                                    >
-                                      {regulator.name}
-                                    </Td>
-                                  </Box>
-                                ))}
-                              </Td>
-                              <Td
-                                textAlign="left"
-                                width={percent}
-                                //rowSpan={regulationUnit.regulators.length}
-                              >
-                                <Button
+                        <Tbody >
+                          {scheme.regulationUnits.map((unit) => {
+                            const { name, regulators } = unit;
+                            return regulators.length > 0 ? (
+                              regulators.map((regulator, index) => (
+                                <Tr key={regulator.id}>
+                                  {index === 0 && <Td rowSpan={regulators.length}>{name}</Td>}
+                                  <Td>{regulator.number}</Td>
+                                  <Td>{regulator.name}</Td>
+                                  {index === 0 && (
+                                    <Td rowSpan={regulators.length}>
+                                      {" "}
+                                  <Button
                                   onClick={() =>
                                     openRegulatorWithUnitModal(
-                                      regulationUnit.id
+                                      unit.id
                                     )
                                   }
                                   variant="outline"
@@ -405,9 +381,35 @@ const percent = `${(100/3)}%`
                                 >
                                   Добавить регуляторы
                                 </Button>
-                              </Td>
-                            </Tr>
-                          ))}
+                                    </Td>
+                                  )}
+                                </Tr>
+                              ))
+                            ) : (
+                              <Tr key={unit.id}>
+                                <Td>{name}</Td>
+                                <Td colSpan={2}>No Regulators</Td>
+                                <Td>
+                                <Button
+                                  onClick={() =>
+                                    openRegulatorWithUnitModal(
+                                      unit.id
+                                    )
+                                  }
+                                  variant="outline"
+                                  aria-label="Open group"
+                                  borderColor="blue.500"
+                                  textColor={"blue.500"}
+                                  borderRadius="md"
+                                  size="sm"
+                                  style={{ whiteSpace: "normal" }}
+                                >
+                                  Добавить регуляторы
+                                </Button>
+                                </Td>
+                              </Tr>
+                            );
+                          })}
                         </Tbody>
                       </Table>
                     </TableContainer>
