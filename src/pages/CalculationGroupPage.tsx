@@ -117,91 +117,86 @@ const CalculationGroupPage: React.FC = () => {
 
   return (
     <VStack spacing={4} align="stretch">
-        <Heading as="h2" size="lg">
-          {group.name}
-        </Heading>
-        <Flex
-          borderWidth="1px"
-          borderRadius="lg"
-          overflow="hidden"
-          mt={10}
-          p={4}
-        >
-          <Tooltip label="Добавить расчет" placement="bottom">
-            <Button
-              onClick={() => setIsOpen(true)}
-              variant="solid"
-              aria-label="Add group"
-              colorScheme="blue"
-              borderRadius="md"
-            >
-              Добавить расчет
-            </Button>
-          </Tooltip>
-        </Flex>
-        <Box>
-          <Accordion allowMultiple mt={2}>
-            {group.calculations.map((calculation) => (
-              <AccordionItem key={calculation.id}>
-                <AccordionButton
-                  onClick={() => handleCalculationClick(calculation.id)}
-                >
-                  <Box as="span" flex="1" textAlign="left">
-                    <Text display="inline">{calculation.name}</Text>
-                    <AccordionIcon />
-                  </Box>
-                </AccordionButton>
-                <AccordionPanel>
-                  {calculations.find(
-                    (calculationData) => calculationData.id === calculation.id
-                  ) ? (
-                    <VStack spacing={4}>
-                      <TableContainer width="100%">
-                        <Table
-                          variant="striped"
-                          colorScheme="gray"
-                          width="100%"
-                        >
-                          <Thead>
-                            <Tr>
-                              <Th bg="gray.400" color="white">СРН</Th>
-                              <Th bg="gray.400" color="white" isNumeric>Первичный резерв, Мвар</Th>
-                              <Th bg="gray.400" color="white" isNumeric>Вторичный резерв, Мвар</Th>
-                              <Th bg="gray.400" color="white" isNumeric>Влияние, о.е</Th>
-                            </Tr>
-                          </Thead>
-                          <Tbody>
-                            {calculations
-                              .find(
-                                (calculationData) =>
-                                  calculationData.id === calculation.id
-                              )
-                              ?.results.map((result) => (
-                                <Tr key={result.name}>
-                                  <Td>{result.name}</Td>
-                                  <Td isNumeric>
-                                    {result.freeReserve.toFixed(2)}
-                                  </Td>
-                                  <Td isNumeric>
-                                    {result.lockedReserve.toFixed(2)}
-                                  </Td>
-                                  <Td isNumeric>
-                                    {result.influence.toFixed(2)}
-                                  </Td>
-                                </Tr>
-                              ))}
-                          </Tbody>
-                        </Table>
-                      </TableContainer>
-                    </VStack>
-                  ) : (
-                    <Text display="inline">НЕТ ДАННЫХ</Text>
-                  )}
-                </AccordionPanel>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </Box>
+      <Heading as="h2" size="lg">
+        {group.name}
+      </Heading>
+      <Flex borderWidth="1px" borderRadius="lg" overflow="hidden" mt={10} p={4}>
+        <Tooltip label="Добавить расчет" placement="bottom">
+          <Button
+            onClick={() => setIsOpen(true)}
+            variant="solid"
+            aria-label="Add group"
+            colorScheme="blue"
+            borderRadius="md"
+          >
+            Добавить расчет
+          </Button>
+        </Tooltip>
+      </Flex>
+      <Box>
+        <Accordion allowMultiple mt={2}>
+          {group.calculations.map((calculation) => (
+            <AccordionItem key={calculation.id}>
+              <Text display="inline">{calculation.name}</Text>
+              <AccordionButton
+                onClick={() => handleCalculationClick(calculation.id)}
+              >
+                <Box as="span" flex="1" textAlign="left"></Box>
+                <AccordionIcon />
+              </AccordionButton>
+              <AccordionPanel>
+                {calculations.find(
+                  (calculationData) => calculationData.id === calculation.id
+                ) ? (
+                  <VStack spacing={4}>
+                    <TableContainer width="100%">
+                      <Table variant="striped" colorScheme="gray" width="100%">
+                        <Thead>
+                          <Tr>
+                            <Th bg="gray.400" color="white">
+                              СРН
+                            </Th>
+                            <Th bg="gray.400" color="white" isNumeric>
+                              Первичный резерв, Мвар
+                            </Th>
+                            <Th bg="gray.400" color="white" isNumeric>
+                              Вторичный резерв, Мвар
+                            </Th>
+                            <Th bg="gray.400" color="white" isNumeric>
+                              Влияние, о.е
+                            </Th>
+                          </Tr>
+                        </Thead>
+                        <Tbody>
+                          {calculations
+                            .find(
+                              (calculationData) =>
+                                calculationData.id === calculation.id
+                            )
+                            ?.results.map((result) => (
+                              <Tr key={result.name}>
+                                <Td>{result.name}</Td>
+                                <Td isNumeric>
+                                  {result.freeReserve.toFixed(2)}
+                                </Td>
+                                <Td isNumeric>
+                                  {result.lockedReserve.toFixed(2)}
+                                </Td>
+                                <Td isNumeric>{result.influence.toFixed(2)}</Td>
+                              </Tr>
+                            ))}
+                        </Tbody>
+                      </Table>
+                    </TableContainer>
+                  </VStack>
+                ) : (
+                  <Text display="inline">НЕТ ДАННЫХ</Text>
+                )}
+              </AccordionPanel>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </Box>
 
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <ModalOverlay />
