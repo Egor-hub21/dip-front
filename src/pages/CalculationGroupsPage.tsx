@@ -332,21 +332,21 @@ const CalculationGroupsPage: React.FC = () => {
                       </Button>
                     </Link>
                     <ActionButtonWithPopover
-      buttonLabel="Удалить"
-      buttonVariant="outline"
-      buttonColor="red.500"
-      confirmationText="Вы уверены, что хотите удалить эту группу?"
-      confirmationHeader="Подтверждение"
-      confirmButtonText="Да"
-      cancelButtonText="Нет"
-      confirmButtonColorScheme="red"
-      cancelButtonColorScheme="gray"
-      buttonSize="xs"
-      onConfirm={() => handleDeleteGroup(group.id)}
-      isOpen={popoverOpenIndex === index}
-      onOpen={() => setPopoverOpenIndex(index)}
-      onClose={() => setPopoverOpenIndex(null)}
-    />
+                      buttonLabel="Удалить"
+                      buttonVariant="outline"
+                      buttonColor="red.500"
+                      confirmationText="Вы уверены, что хотите удалить эту группу?"
+                      confirmationHeader="Подтверждение"
+                      confirmButtonText="Да"
+                      cancelButtonText="Нет"
+                      confirmButtonColorScheme="red"
+                      cancelButtonColorScheme="gray"
+                      buttonSize="xs"
+                      onConfirm={() => handleDeleteGroup(group.id)}
+                      isOpen={popoverOpenIndex === index}
+                      onOpen={() => setPopoverOpenIndex(index)}
+                      onClose={() => setPopoverOpenIndex(null)}
+                    />
                   </ButtonGroup>
                 </Td>
               </Tr>
