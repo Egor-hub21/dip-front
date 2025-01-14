@@ -116,11 +116,11 @@ const CalculationGroupPage: React.FC = () => {
   }
 
   return (
-    <VStack spacing={4} align="stretch">
-      <Heading as="h2" size="lg">
+    <VStack  p={4} spacing={4} align="stretch">
+      <Heading as="h2" size="xl" mb={4}>
         {group.name}
       </Heading>
-      <Flex borderWidth="1px" borderRadius="lg" overflow="hidden" mt={10} p={4}>
+      <Flex borderWidth="1px" borderRadius="lg" overflow="hidden" p={4}>
         <Tooltip label="Добавить расчет" placement="bottom">
           <Button
             onClick={() => setIsOpen(true)}
@@ -137,11 +137,22 @@ const CalculationGroupPage: React.FC = () => {
         <Accordion allowMultiple mt={2}>
           {group.calculations.map((calculation) => (
             <AccordionItem key={calculation.id}>
-              <Text display="inline">{calculation.name}</Text>
+              <Flex justify="space-between" align="center" p={2}>
+                <Text display="inline">
+                  {calculation.name} ({calculation.fileName})
+                </Text>
+                <Button 
+                 variant="outline"
+                 aria-label="Open group"
+                 borderColor="red.500"
+                 textColor={"red.500"}
+                 borderRadius="md"
+                 size="xs"
+                >Удалить</Button>
+              </Flex>
               <AccordionButton
                 onClick={() => handleCalculationClick(calculation.id)}
               >
-                <Box as="span" flex="1" textAlign="left"></Box>
                 <AccordionIcon />
               </AccordionButton>
               <AccordionPanel>

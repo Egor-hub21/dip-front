@@ -25,6 +25,9 @@ import {
   FormControl,
   Input,
   FormLabel,
+  Flex,
+  Tooltip,
+  VStack,
 } from "@chakra-ui/react";
 import {
   getAllRegimeFiles,
@@ -131,15 +134,23 @@ const RegimeFilesPage: React.FC = () => {
   });
 
   return (
-    <Box p={4}>
+    <VStack  p={4} spacing={4} align="stretch">
       <Heading as="h2" size="xl" mb={4}>
         Управление файлами
       </Heading>
-
-      <Button onClick={handleOpenModal} colorScheme="blue" mb={4}>
-        Загрузить файл
-      </Button>
-
+      <Flex borderWidth="1px" borderRadius="lg" overflow="hidden" p={4}>
+        <Tooltip label="Загрузить файл" placement="bottom">
+          <Button
+             onClick={handleOpenModal}
+            variant="solid"
+            aria-label="Add group"
+            colorScheme="blue"
+            borderRadius="md"
+          >
+            Загрузить файл
+          </Button>
+        </Tooltip>
+      </Flex>
       <Modal isOpen={isOpen} onClose={handleCloseModal}>
         <ModalOverlay />
         <ModalContent>
@@ -177,7 +188,6 @@ const RegimeFilesPage: React.FC = () => {
                 isDisabled={!file}
               />
             </FormControl>
-
             <FormControl mb={4}>
               <FormLabel htmlFor="timestamp" fontSize="lg" fontWeight="bold">
                 Метка времени
@@ -190,7 +200,6 @@ const RegimeFilesPage: React.FC = () => {
                 isDisabled={!file}
               />
             </FormControl>
-
             <Button
               onClick={handleUpload}
               colorScheme="blue"
@@ -212,8 +221,7 @@ const RegimeFilesPage: React.FC = () => {
           </ModalFooter>
         </ModalContent>
       </Modal>
-
-      <Box mt={8}>
+      <Box>
         <Heading as="h3" size="lg" mb={4}>
           Список файлов
         </Heading>
@@ -272,7 +280,7 @@ const RegimeFilesPage: React.FC = () => {
           </TableContainer>
         )}
       </Box>
-    </Box>
+    </VStack>
   );
 };
 

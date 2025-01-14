@@ -66,7 +66,6 @@ import {
 } from "../types/schemeData";
 import { NavLink } from "react-router-dom";
 
-
 const steps = [
   { title: "Описание", description: "" },
   { title: "Данные схемы", description: "" },
@@ -191,56 +190,64 @@ const CalculationGroupsPage: React.FC = () => {
   const modalWindows = [
     <Box key="0" maxHeight={"80vh"}>
       <FormControl>
-        <FormLabel htmlFor="my-select" >Название</FormLabel>
-          <Input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            size="lg"
-            placeholder="Введите название"
-            mb={3}
-          />
-        <FormLabel htmlFor="my-select" >Описание</FormLabel>
-          <Textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Введите описание"
-            size="lg"
-            height="20vh"
-            resize="none"
-            overflow="auto" 
-          />
+        <FormLabel htmlFor="my-select">Название</FormLabel>
+        <Input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          size="lg"
+          placeholder="Введите название"
+          mb={3}
+        />
+        <FormLabel htmlFor="my-select">Описание</FormLabel>
+        <Textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Введите описание"
+          size="lg"
+          height="20vh"
+          resize="none"
+          overflow="auto"
+        />
       </FormControl>
     </Box>,
     <Box key="1" maxHeight={"10%"}>
       <FormControl>
-      <FormLabel htmlFor="my-select">Выберите схему</FormLabel>
-      <Select
-        aria-labelledby="Выберите схему"
-        value={schemeId}
-        onChange={(e) => handleSchemeChange(e.target.value)}
-        placeholder={availableSchemes.length > 0 ? "Выберите схему" : "Нет доступных схем"}
-        mb={3}
-      >
-        {availableSchemes.map((scheme) => (
-          <option key={scheme.id} value={scheme.id}>
-            {scheme.name}
-          </option>
-        ))}
-      </Select>
-      <FormLabel htmlFor="my-select">Выберите сечение</FormLabel>
-      <Select
-        aria-labelledby="Выберите сечение"
-        value={sectionId}
-        onChange={(e) => setSectionId(e.target.value)}
-        placeholder={availableSchemes.length > 0 ? "Выберите сечение" : "Нет доступных сечений"}
-        mb={3}
-      >
-        {availableSections.map((section) => (
-          <option key={section.id} value={section.id}>
-            {section.name}
-          </option>
-        ))}
-      </Select>
+        <FormLabel htmlFor="my-select">Выберите схему</FormLabel>
+        <Select
+          aria-labelledby="Выберите схему"
+          value={schemeId}
+          onChange={(e) => handleSchemeChange(e.target.value)}
+          placeholder={
+            availableSchemes.length > 0
+              ? "Выберите схему"
+              : "Нет доступных схем"
+          }
+          mb={3}
+        >
+          {availableSchemes.map((scheme) => (
+            <option key={scheme.id} value={scheme.id}>
+              {scheme.name}
+            </option>
+          ))}
+        </Select>
+        <FormLabel htmlFor="my-select">Выберите сечение</FormLabel>
+        <Select
+          aria-labelledby="Выберите сечение"
+          value={sectionId}
+          onChange={(e) => setSectionId(e.target.value)}
+          placeholder={
+            availableSchemes.length > 0
+              ? "Выберите сечение"
+              : "Нет доступных сечений"
+          }
+          mb={3}
+        >
+          {availableSections.map((section) => (
+            <option key={section.id} value={section.id}>
+              {section.name}
+            </option>
+          ))}
+        </Select>
       </FormControl>
       <Text fontWeight="bold">Выберите регуляторные единицы:</Text>
       <VStack spacing={2} align="start">
@@ -268,27 +275,24 @@ const CalculationGroupsPage: React.FC = () => {
       setCurrentModelStep(currentModelStep - 1);
     }
   };
-  const [popoverOpenIndex, setPopoverOpenIndex] = useState<number | null>(null); 
-
+  const [popoverOpenIndex, setPopoverOpenIndex] = useState<number | null>(null);
 
   const handleDeleteGroup = async (groupId: string) => {
     try {
-      await deleteCalculationGroup(groupId); 
+      await deleteCalculationGroup(groupId);
       setGroups(groups.filter((group) => group.id !== groupId));
       setPopoverOpenIndex(null);
     } catch (error) {
       console.error("Ошибка при удалении группы:", error);
     }
   };
-  
-
 
   return (
-    <VStack spacing={4} align="stretch">
-      <Heading as="h2" size="lg">
+    <VStack p={4} spacing={4} align="stretch">
+      <Heading as="h2" size="xl" mb={4}>
         Группы расчетов
       </Heading>
-      <Flex borderWidth="1px" borderRadius="lg" overflow="hidden" mt={10} p={4}>
+      <Flex borderWidth="1px" borderRadius="lg" overflow="hidden" p={4}>
         <Tooltip label="Добавить группу" placement="bottom">
           <Button
             onClick={onOpenAddWindow}
@@ -305,13 +309,13 @@ const CalculationGroupsPage: React.FC = () => {
         <Table variant="simple" colorScheme="gray">
           <Thead>
             <Tr>
-              <Th bg="gray.400" color="white">
+              <Th width="20%" bg="gray.400" color="white">
                 Название
               </Th>
-              <Th bg="gray.400" color="white">
+              <Th width="70%" bg="gray.400" color="white">
                 Описание
               </Th>
-              <Th bg="gray.400" color="white">
+              <Th width="10%" bg="gray.400" color="white">
                 Действия
               </Th>
             </Tr>
@@ -335,39 +339,55 @@ const CalculationGroupsPage: React.FC = () => {
                         Открыть
                       </Button>
                     </Link>
-<Popover isOpen={popoverOpenIndex === index} onClose={() => setPopoverOpenIndex(null)}>
-  <PopoverTrigger>
-    <Button
-      variant="outline"
-      aria-label="Open group"
-      borderColor="red.500"
-      textColor={"red.500"}
-      borderRadius="md"
-      size="xs"
-      onClick={() => setPopoverOpenIndex(index)} // Открываем Popover для конкретной группы
-    >
-      Удалить
-    </Button>
-  </PopoverTrigger>
-  <PopoverContent>
-    <PopoverArrow />
-    <PopoverCloseButton />
-    <PopoverHeader fontSize="sm">Подтверждение</PopoverHeader>
-    <PopoverBody>
-      <Text fontSize="sm">
-        Вы уверены, что хотите удалить эту группу?
-      </Text>
-    </PopoverBody>
-    <PopoverFooter display='flex' justifyContent='flex-end'>
-      <Button colorScheme="red" ml={2} size="xs" width="50px" onClick={() => handleDeleteGroup(group.id)}>
-        Да
-      </Button>
-      <Button ml={2} size="xs" width="50px" onClick={() => setPopoverOpenIndex(null)}>
-        Нет
-      </Button>
-    </PopoverFooter>
-  </PopoverContent>
-</Popover>
+                    <Popover
+                      isOpen={popoverOpenIndex === index}
+                      onClose={() => setPopoverOpenIndex(null)}
+                    >
+                      <PopoverTrigger>
+                        <Button
+                          variant="outline"
+                          aria-label="Open group"
+                          borderColor="red.500"
+                          textColor={"red.500"}
+                          borderRadius="md"
+                          size="xs"
+                          onClick={() => setPopoverOpenIndex(index)} // Открываем Popover для конкретной группы
+                        >
+                          Удалить
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent>
+                        <PopoverArrow />
+                        <PopoverCloseButton />
+                        <PopoverHeader fontSize="sm">
+                          Подтверждение
+                        </PopoverHeader>
+                        <PopoverBody>
+                          <Text fontSize="sm">
+                            Вы уверены, что хотите удалить эту группу?
+                          </Text>
+                        </PopoverBody>
+                        <PopoverFooter display="flex" justifyContent="flex-end">
+                          <Button
+                            colorScheme="red"
+                            ml={2}
+                            size="xs"
+                            width="50px"
+                            onClick={() => handleDeleteGroup(group.id)}
+                          >
+                            Да
+                          </Button>
+                          <Button
+                            ml={2}
+                            size="xs"
+                            width="50px"
+                            onClick={() => setPopoverOpenIndex(null)}
+                          >
+                            Нет
+                          </Button>
+                        </PopoverFooter>
+                      </PopoverContent>
+                    </Popover>
                   </ButtonGroup>
                 </Td>
               </Tr>

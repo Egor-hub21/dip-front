@@ -15,6 +15,8 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
+  VStack,
+  Tooltip,
 } from "@chakra-ui/react";
 import { getAllSchemes, createScheme } from "../api/schemeDataApi";
 import SchemeDetail from "../components/scheme-data/SchemeDetail";
@@ -56,16 +58,26 @@ const SchemePage: React.FC = () => {
 
   return (
     <Flex height="100%">
-      <Box p={4} width="50%" height="100%">
-        <Heading mb={4}>Схемы</Heading>
-        <Button
-          onClick={() => setIsModalOpen(true)}
-          bgColor="blue.500"
-          color="white"
-          mb={4}
-        >
-          Добавить новую схему
-        </Button>
+      <VStack p={4} spacing={4} align="stretch" width="50%" height="100%">
+        <Heading as="h2" size="xl" mb={4}>
+          Схемы
+        </Heading>
+
+
+        <Flex borderWidth="1px" borderRadius="lg" overflow="hidden" p={4}>
+          <Tooltip label="Добавить новую схему" placement="bottom">
+            <Button
+              onClick={() => setIsModalOpen(true)}
+              variant="solid"
+              aria-label="Add group"
+              colorScheme="blue"
+              borderRadius="md"
+            >
+              Добавить новую схему
+            </Button>
+          </Tooltip>
+        </Flex>
+
         <Heading fontSize="2xl" mb={4}>
           Список схем
         </Heading>
@@ -79,8 +91,9 @@ const SchemePage: React.FC = () => {
                   width="full"
                   _hover={{ backgroundColor: "blue.600" }}
                   color={selectedSchemeId === scheme.id ? "white" : "black"}
-                  backgroundColor={selectedSchemeId === scheme.id ? "blue.500" : "transparent"}
-
+                  backgroundColor={
+                    selectedSchemeId === scheme.id ? "blue.500" : "transparent"
+                  }
                   fontWeight="medium"
                   justifyContent="flex-start"
                   fontSize="xl"
@@ -92,7 +105,7 @@ const SchemePage: React.FC = () => {
             </ListItem>
           ))}
         </List>
-      </Box>
+      </VStack>
       <Box
         width="50%"
         height="100%"
@@ -102,7 +115,6 @@ const SchemePage: React.FC = () => {
         p={4}
       >
         {selectedSchemeId ? (
-          
           <SchemeDetail schemeId={selectedSchemeId} />
         ) : (
           <Flex

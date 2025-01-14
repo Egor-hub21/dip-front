@@ -201,10 +201,10 @@ const SchemeDetail: React.FC<SchemeDetailProps> = ({ schemeId }) => {
                       <Table variant="striped" colorScheme="blackAlpha">
                         <Thead position="sticky" top="0" bg="white" zIndex="1">
                           <Tr>
-                            <Th bg={"gray.500"} textColor={"white"} isNumeric>
+                            <Th width="10%" bg={"gray.500"} textColor={"white"} isNumeric>
                               Номер
                             </Th>
-                            <Th bg={"gray.500"} textColor={"white"}>
+                            <Th width="90%" bg={"gray.500"} textColor={"white"}>
                               Название
                             </Th>
                           </Tr>
@@ -234,10 +234,10 @@ const SchemeDetail: React.FC<SchemeDetailProps> = ({ schemeId }) => {
                       <Table variant="striped" colorScheme="blackAlpha">
                         <Thead position="sticky" top="0" bg="white" zIndex="1">
                           <Tr>
-                            <Th bg={"gray.500"} textColor={"white"} isNumeric>
+                            <Th width="10%" bg={"gray.500"} textColor={"white"} isNumeric>
                               Номер
                             </Th>
-                            <Th bg={"gray.500"} textColor={"white"}>
+                            <Th width="90%" bg={"gray.500"} textColor={"white"}>
                               Название
                             </Th>
                           </Tr>
@@ -267,13 +267,13 @@ const SchemeDetail: React.FC<SchemeDetailProps> = ({ schemeId }) => {
                       <Table variant="striped" colorScheme="blackAlpha">
                         <Thead position="sticky" top="0" bg="white" zIndex="1">
                           <Tr>
-                            <Th bg={"gray.500"} textColor={"white"}>
+                            <Th width="33%" bg={"gray.500"} textColor={"white"}>
                               Название
                             </Th>
-                            <Th bg={"gray.500"} textColor={"white"}>
+                            <Th width="33%" bg={"gray.500"} textColor={"white"}>
                               Регуляторы
                             </Th>
-                            <Th bg={"gray.500"} textColor={"white"}>
+                            <Th width="33%" bg={"gray.500"} textColor={"white"}>
                               Действия
                             </Th>
                           </Tr>
