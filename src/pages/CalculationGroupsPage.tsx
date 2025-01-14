@@ -39,14 +39,6 @@ import {
   StepTitle,
   StepDescription,
   StepSeparator,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverHeader,
-  PopoverBody,
-  PopoverFooter,
 } from "@chakra-ui/react";
 import {
   CalculationGroupRequest,
@@ -65,7 +57,7 @@ import {
   RegulationUnit,
 } from "../types/schemeData";
 import { NavLink } from "react-router-dom";
-
+import ActionButtonWithPopover from "../components/ui/ActionButtonWithPopover";
 const steps = [
   { title: "Описание", description: "" },
   { title: "Данные схемы", description: "" },
@@ -339,55 +331,22 @@ const CalculationGroupsPage: React.FC = () => {
                         Открыть
                       </Button>
                     </Link>
-                    <Popover
-                      isOpen={popoverOpenIndex === index}
-                      onClose={() => setPopoverOpenIndex(null)}
-                    >
-                      <PopoverTrigger>
-                        <Button
-                          variant="outline"
-                          aria-label="Open group"
-                          borderColor="red.500"
-                          textColor={"red.500"}
-                          borderRadius="md"
-                          size="xs"
-                          onClick={() => setPopoverOpenIndex(index)} // Открываем Popover для конкретной группы
-                        >
-                          Удалить
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent>
-                        <PopoverArrow />
-                        <PopoverCloseButton />
-                        <PopoverHeader fontSize="sm">
-                          Подтверждение
-                        </PopoverHeader>
-                        <PopoverBody>
-                          <Text fontSize="sm">
-                            Вы уверены, что хотите удалить эту группу?
-                          </Text>
-                        </PopoverBody>
-                        <PopoverFooter display="flex" justifyContent="flex-end">
-                          <Button
-                            colorScheme="red"
-                            ml={2}
-                            size="xs"
-                            width="50px"
-                            onClick={() => handleDeleteGroup(group.id)}
-                          >
-                            Да
-                          </Button>
-                          <Button
-                            ml={2}
-                            size="xs"
-                            width="50px"
-                            onClick={() => setPopoverOpenIndex(null)}
-                          >
-                            Нет
-                          </Button>
-                        </PopoverFooter>
-                      </PopoverContent>
-                    </Popover>
+                    <ActionButtonWithPopover
+      buttonLabel="Удалить"
+      buttonVariant="outline"
+      buttonColor="red.500"
+      confirmationText="Вы уверены, что хотите удалить эту группу?"
+      confirmationHeader="Подтверждение"
+      confirmButtonText="Да"
+      cancelButtonText="Нет"
+      confirmButtonColorScheme="red"
+      cancelButtonColorScheme="gray"
+      buttonSize="xs"
+      onConfirm={() => handleDeleteGroup(group.id)}
+      isOpen={popoverOpenIndex === index}
+      onOpen={() => setPopoverOpenIndex(index)}
+      onClose={() => setPopoverOpenIndex(null)}
+    />
                   </ButtonGroup>
                 </Td>
               </Tr>
