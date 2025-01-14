@@ -39,8 +39,6 @@ import {
   Th,
   Tbody,
   Td,
-  List,
-  ListItem,
   Spinner,
   Flex,
 } from "@chakra-ui/react";
@@ -75,6 +73,8 @@ const SchemeDetail: React.FC<SchemeDetailProps> = ({ schemeId }) => {
   const [selectedRegulationUnitId, setSelectedRegulationUnitId] = useState<
     string | null
   >(null);
+
+const percent = `${(100/3)}%`
 
   useEffect(() => {
     const fetchScheme = async () => {
@@ -293,49 +293,54 @@ const SchemeDetail: React.FC<SchemeDetailProps> = ({ schemeId }) => {
                     >
                       Добавить
                     </Button>
-                    <TableContainer maxH="90ch" overflowY="auto">
+                    <TableContainer maxH="90ch" overflowY="auto" >
                       <Table variant="striped" colorScheme="blackAlpha">
                         <Thead position="sticky" top="0" bg="white" zIndex="1">
                           <Tr>
                             <Th
                               textAlign="left"
-                              width="33%"
+                              width={percent}
                               bg={"gray.500"}
                               textColor={"white"}
+                              rowSpan={2}
                             >
                               Название
                             </Th>
                             <Th
-                              textAlign="center"
-                              width="33%"
+                              textAlign="left"
+                              width={percent}
                               bg={"gray.500"}
                               textColor={"white"}
+                              colSpan={2}
                             >
                               Регуляторы
-                              <Th
-                                textAlign="left"
-                                width="20%"
-                                bg={"gray.500"}
-                                textColor={"white"}
-                              >
-                                Номер
-                              </Th>
-                              <Th
-                                textAlign="left"
-                                width="80%"
-                                bg={"gray.500"}
-                                textColor={"white"}
-                              >
-                                Название
-                              </Th>
                             </Th>
                             <Th
-                              width="33%"
+                              width={percent}
                               bg={"gray.500"}
                               textColor={"white"}
                               textAlign="left"
+                              rowSpan={2}
                             >
                               Действия
+                            </Th>
+                          </Tr>
+                          <Tr>
+                            <Th
+                              textAlign="left"
+                              width="10%"
+                              bg={"gray.500"}
+                              textColor={"white"}
+                            >
+                              Номер
+                            </Th>
+                            <Th
+                              textAlign="left"
+                              width="90%"
+                              bg={"gray.500"}
+                              textColor={"white"}
+                            >
+                              Название
                             </Th>
                           </Tr>
                         </Thead>
@@ -345,34 +350,45 @@ const SchemeDetail: React.FC<SchemeDetailProps> = ({ schemeId }) => {
                               <Td
                                 textAlign="left"
                                 style={{ whiteSpace: "normal" }}
+                                width={percent}
+                                //rowSpan={regulationUnit.regulators.length}
                               >
                                 {regulationUnit.name}
                               </Td>
-
-                              {regulationUnit.regulators.map((regulator) => (
-                                <Box
-                                  key={regulator.id}
-                                  fontSize="lg"
-                                  //style={{ whiteSpace: "normal" }}
-                                >
-                                  <Td
-                                    textAlign="left"
-                                    width="20%"
-                                    // style={{ whiteSpace: "normal" }}
+                              <Td
+                                textAlign="left"
+                                style={{ whiteSpace: "normal" }}
+                                width={percent}
+                                colSpan={2}
+                              >
+                                {regulationUnit.regulators.map((regulator) => (
+                                  <Box
+                                    key={regulator.id}
+                                    style={{ whiteSpace: "normal" }}
+                                    width="100%"
                                   >
-                                    {regulator.number}
-                                  </Td>
-                                  <Td
-                                    textAlign="left"
-                                    width="80%"
-                                    // style={{ whiteSpace: "normal" }}
-                                  >
-                                    {regulator.name}
-                                  </Td>
-                                </Box>
-                              ))}
-
-                              <Td textAlign="left">
+                                    <Td
+                                      textAlign="left"
+                                      width="10%"
+                                      style={{ whiteSpace: "normal" }}
+                                    >
+                                      {regulator.number}
+                                    </Td>
+                                    <Td
+                                      textAlign="left"
+                                      width="90%"
+                                      style={{ whiteSpace: "normal" }}
+                                    >
+                                      {regulator.name}
+                                    </Td>
+                                  </Box>
+                                ))}
+                              </Td>
+                              <Td
+                                textAlign="left"
+                                width={percent}
+                                //rowSpan={regulationUnit.regulators.length}
+                              >
                                 <Button
                                   onClick={() =>
                                     openRegulatorWithUnitModal(
