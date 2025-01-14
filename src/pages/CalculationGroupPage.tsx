@@ -35,12 +35,14 @@ import {
   getCalculation,
   addCalculationToGroup,
   startCalculation,
+  deleteCalculation,
 } from "../api/calculationGroupApi";
 import { CalculationGroupFullResponse } from "../types/CalculationGroups";
 import { CalculationFullResponse } from "../types/Calculation";
 import { CalculationRequest } from "../types/Calculation";
 import { getAllRegimeFiles } from "../api/regimeFileApi";
 import { RegimeFileResponse } from "../types/regimeFile";
+import ActionButtonWithPopover from "../components/ui/ActionButtonWithPopover";
 
 const CalculationGroupPage: React.FC = () => {
   const { groupId } = useParams();
@@ -90,6 +92,24 @@ const CalculationGroupPage: React.FC = () => {
     });
   };
 
+  const [popoverOpenIndex, setPopoverOpenIndex] = useState<number | null>(null);
+
+    const handleDelete = async (calcId: string) => {
+      try {
+        await deleteCalculation(calcId);
+        setGroup({
+          id: group!.id,
+          name: group!.name,
+          description: group!.description,
+            calculations: group!.calculations.filter(item => item.id !== calcId)
+          } as CalculationGroupFullResponse);
+        setPopoverOpenIndex(null);
+      } catch (error) {
+        console.error("Ошибка при удалении группы:", error);
+      }
+    };
+
+
   const handleAddCalculation = async () => {
     if (calculationName && selectedFileId) {
       const newCalculation: CalculationRequest = {
@@ -135,20 +155,28 @@ const CalculationGroupPage: React.FC = () => {
       </Flex>
       <Box>
         <Accordion allowMultiple mt={2}>
-          {group.calculations.map((calculation) => (
+          {group.calculations.map((calculation, index) => (
             <AccordionItem key={calculation.id}>
               <Flex justify="space-between" align="center" p={2}>
                 <Text display="inline">
                   {calculation.name} ({calculation.fileName})
                 </Text>
-                <Button 
-                 variant="outline"
-                 aria-label="Open group"
-                 borderColor="red.500"
-                 textColor={"red.500"}
-                 borderRadius="md"
-                 size="xs"
-                >Удалить</Button>
+                <ActionButtonWithPopover
+                      buttonLabel="Удалить"
+                      buttonVariant="outline"
+                      buttonColor="red.500"
+                      confirmationText="Вы уверены, что хотите удалить эту группу?"
+                      confirmationHeader="Подтверждение"
+                      confirmButtonText="Да"
+                      cancelButtonText="Нет"
+                      confirmButtonColorScheme="red"
+                      cancelButtonColorScheme="gray"
+                      buttonSize="xs"
+                      onConfirm={() => handleDelete(calculation.id)}
+                      isOpen={popoverOpenIndex === index}
+                      onOpen={() => setPopoverOpenIndex(index)}
+                      onClose={() => setPopoverOpenIndex(null)}
+                    />
               </Flex>
               <AccordionButton
                 onClick={() => handleCalculationClick(calculation.id)}
@@ -209,6 +237,7 @@ const CalculationGroupPage: React.FC = () => {
         </Accordion>
       </Box>
 
+      {/* Модальное окно */}
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <ModalOverlay />
         <ModalContent>
