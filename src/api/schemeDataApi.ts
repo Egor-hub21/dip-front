@@ -87,3 +87,11 @@ export const getFreeRegulatorsBySchemeId = async (
   );
   return response.data;
 };
+
+export const readSchemaFromFile = async (
+  schemeId: string,
+  fileId: string
+): Promise<void> => {
+  await axios.post(`${API_URL_SCHEME}/${schemeId}/read-files/${fileId}`);
+}
+

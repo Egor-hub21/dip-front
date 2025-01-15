@@ -6,6 +6,7 @@ import {
   createRegulationUnit,
   updateRegulators,
   getFreeRegulatorsBySchemeId,
+  readSchemaFromFile,
 } from "../../api/schemeDataApi";
 import {
   SchemeDataFullResponse,
@@ -41,7 +42,10 @@ import {
   Td,
   Spinner,
   Flex,
+  Select,
 } from "@chakra-ui/react";
+import { getAllRegimeFiles } from "../../api/regimeFileApi";
+import { RegimeFileResponse } from "../../types/regimeFile";
 
 interface SchemeDetailProps {
   schemeId: string;
@@ -73,6 +77,10 @@ const SchemeDetail: React.FC<SchemeDetailProps> = ({ schemeId }) => {
   const [selectedRegulationUnitId, setSelectedRegulationUnitId] = useState<
     string | null
   >(null);
+
+  const [isFilesModalOpen, setIsFilesModalOpen] = useState(false);
+  const [selectedFileId, setSelectedFileId] = useState<string>("");
+  const [files, setFiles] = useState<RegimeFileResponse[]>([]);
 
 const percent = `${(100/3)}%`
 
@@ -163,6 +171,34 @@ const percent = `${(100/3)}%`
     }
   };
 
+   useEffect(() => {
+      const fetchFiles = async () => {
+        try {
+          const fileList = await getAllRegimeFiles();
+          setFiles(fileList);
+        } catch (error) {
+          console.error("Error fetching files:", error);
+        }
+      };
+  
+      fetchFiles();
+    }, []);
+
+      const readFile = async () => {
+        if (schemeId && selectedFileId) {
+          try {
+           await readSchemaFromFile(
+              schemeId,
+              selectedFileId
+            );
+            setIsFilesModalOpen(false);
+            setSelectedFileId("");
+          } catch (error) {
+            console.error("Ошибка :", error);
+          }
+        }
+      };
+
   return (
     <Box maxHeight={"100vh"} overflowY="auto">
       {loading ? (
@@ -180,6 +216,15 @@ const percent = `${(100/3)}%`
               <Heading fontSize="2xl" mb={4}>
                 {scheme.name}
               </Heading>
+              <Button
+                onClick={() => setIsFilesModalOpen(true)}
+                variant="solid"
+                aria-label="Add group"
+                colorScheme="blue"
+                borderRadius="md"
+              >
+                Считать данные из файла
+              </Button>
               <Tabs isLazy size="md" variant="enclosed">
                 <TabList>
                   <Tab>Сечения</Tab>
@@ -248,7 +293,7 @@ const percent = `${(100/3)}%`
                       Добавить
                     </Button>
                     <TableContainer maxH="90ch" overflowY="auto">
-                      <Table  variant="simple" colorScheme={"gray.400"}>
+                      <Table variant="simple" colorScheme={"gray.400"}>
                         <Thead position="sticky" top="0" bg="white" zIndex="1">
                           <Tr>
                             <Th
@@ -297,7 +342,7 @@ const percent = `${(100/3)}%`
                     >
                       Добавить
                     </Button>
-                    <TableContainer maxH="90ch" overflowY="auto" >
+                    <TableContainer maxH="90ch" overflowY="auto">
                       <Table variant="simple" colorScheme={"gray.400"}>
                         <Thead position="sticky" top="0" bg="white" zIndex="1">
                           <Tr>
@@ -347,40 +392,40 @@ const percent = `${(100/3)}%`
                               width="90%"
                               bg={"gray.500"}
                               textColor={"white"}
-                               border={"1px solid"}
+                              border={"1px solid"}
                             >
                               Название
                             </Th>
                           </Tr>
                         </Thead>
-                        <Tbody >
+                        <Tbody>
                           {scheme.regulationUnits.map((unit) => {
                             const { name, regulators } = unit;
                             return regulators.length > 0 ? (
                               regulators.map((regulator, index) => (
                                 <Tr key={regulator.id}>
-                                  {index === 0 && <Td rowSpan={regulators.length}>{name}</Td>}
+                                  {index === 0 && (
+                                    <Td rowSpan={regulators.length}>{name}</Td>
+                                  )}
                                   <Td>{regulator.number}</Td>
                                   <Td>{regulator.name}</Td>
                                   {index === 0 && (
                                     <Td rowSpan={regulators.length}>
                                       {" "}
-                                  <Button
-                                  onClick={() =>
-                                    openRegulatorWithUnitModal(
-                                      unit.id
-                                    )
-                                  }
-                                  variant="outline"
-                                  aria-label="Open group"
-                                  borderColor="blue.500"
-                                  textColor={"blue.500"}
-                                  borderRadius="md"
-                                  size="sm"
-                                  style={{ whiteSpace: "normal" }}
-                                >
-                                  Добавить регуляторы
-                                </Button>
+                                      <Button
+                                        onClick={() =>
+                                          openRegulatorWithUnitModal(unit.id)
+                                        }
+                                        variant="outline"
+                                        aria-label="Open group"
+                                        borderColor="blue.500"
+                                        textColor={"blue.500"}
+                                        borderRadius="md"
+                                        size="sm"
+                                        style={{ whiteSpace: "normal" }}
+                                      >
+                                        Добавить регуляторы
+                                      </Button>
                                     </Td>
                                   )}
                                 </Tr>
@@ -390,22 +435,20 @@ const percent = `${(100/3)}%`
                                 <Td>{name}</Td>
                                 <Td colSpan={2}>No Regulators</Td>
                                 <Td>
-                                <Button
-                                  onClick={() =>
-                                    openRegulatorWithUnitModal(
-                                      unit.id
-                                    )
-                                  }
-                                  variant="outline"
-                                  aria-label="Open group"
-                                  borderColor="blue.500"
-                                  textColor={"blue.500"}
-                                  borderRadius="md"
-                                  size="sm"
-                                  style={{ whiteSpace: "normal" }}
-                                >
-                                  Добавить регуляторы
-                                </Button>
+                                  <Button
+                                    onClick={() =>
+                                      openRegulatorWithUnitModal(unit.id)
+                                    }
+                                    variant="outline"
+                                    aria-label="Open group"
+                                    borderColor="blue.500"
+                                    textColor={"blue.500"}
+                                    borderRadius="md"
+                                    size="sm"
+                                    style={{ whiteSpace: "normal" }}
+                                  >
+                                    Добавить регуляторы
+                                  </Button>
                                 </Td>
                               </Tr>
                             );
@@ -554,6 +597,38 @@ const percent = `${(100/3)}%`
               variant="ghost"
               onClick={() => setIsRegulatorWithUnitModalOpen(false)}
             >
+              Отмена
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+      {/* Modal read scheme from file*/}
+      <Modal
+        isOpen={isFilesModalOpen}
+        onClose={() => setIsFilesModalOpen(false)}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Считать данные схемы из файла</ModalHeader>
+          <ModalBody>
+            <Select
+              value={selectedFileId}
+              onChange={(e) => setSelectedFileId(e.target.value)}
+              placeholder="Выберите файл"
+              mb={3}
+            >
+              {files.map((file) => (
+                <option key={file.id} value={file.id}>
+                  {file.name}
+                </option>
+              ))}
+            </Select>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" onClick={() =>{readFile(); setIsFilesModalOpen(false)}}>
+              Добавить
+            </Button>
+            <Button variant="ghost" onClick={() => setIsFilesModalOpen(false)}>
               Отмена
             </Button>
           </ModalFooter>
