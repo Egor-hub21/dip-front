@@ -43,6 +43,7 @@ import {
   Spinner,
   Flex,
   Select,
+  Text,
 } from "@chakra-ui/react";
 import { getAllRegimeFiles } from "../../api/regimeFileApi";
 import { RegimeFileResponse } from "../../types/regimeFile";
@@ -200,7 +201,7 @@ const percent = `${(100/3)}%`
       };
 
   return (
-    <Box maxHeight={"100vh"} overflowY="auto">
+    <Box >
       {loading ? (
         <Flex
           align="center" // Центрирование по вертикали
@@ -210,12 +211,13 @@ const percent = `${(100/3)}%`
           <Spinner size="xl" />
         </Flex>
       ) : (
-        <Box maxHeight={"100vh"} overflowY="auto">
+        <Box maxHeight={"100vh"} >
           {scheme ? (
             <Box maxHeight={"100vh"} overflowY="auto">
               <Heading fontSize="2xl" mb={4}>
                 {scheme.name}
               </Heading>
+              <Flex borderWidth="1px" borderRadius="lg" overflow="hidden" p={2} mb={4}>
               <Button
                 onClick={() => setIsFilesModalOpen(true)}
                 variant="solid"
@@ -225,6 +227,7 @@ const percent = `${(100/3)}%`
               >
                 Считать данные из файла
               </Button>
+              </Flex>
               <Tabs isLazy size="md" variant="enclosed">
                 <TabList>
                   <Tab>Сечения</Tab>
@@ -242,7 +245,17 @@ const percent = `${(100/3)}%`
                     >
                       Добавить
                     </Button>
-                    <TableContainer maxH="90ch" overflowY="auto">
+                    {scheme.sections.length === 0 ? (
+                              <Flex
+                              align="center" // Центрирование по вертикали
+                              justify="center" // Центрирование по горизонтали
+                              height="100%" // Высота на весь экран
+                            >
+                              <Text fontSize="xl">Сечения не заданы</Text>
+                            </Flex>
+                    ) :(
+
+                    <TableContainer maxH="100ch" overflowY="auto">
                       <Table variant="simple" colorScheme={"gray.400"}>
                         <Thead position="sticky" top="0" bg="white" zIndex="1">
                           <Tr>
@@ -281,6 +294,7 @@ const percent = `${(100/3)}%`
                         </Tbody>
                       </Table>
                     </TableContainer>
+                    )}
                   </TabPanel>
 
                   {/* Regulators Tab */}
@@ -292,6 +306,15 @@ const percent = `${(100/3)}%`
                     >
                       Добавить
                     </Button>
+                    {scheme.sections.length === 0 ? (
+                              <Flex
+                              align="center" // Центрирование по вертикали
+                              justify="center" // Центрирование по горизонтали
+                              height="100%" // Высота на весь экран
+                            >
+                              <Text fontSize="xl">Регуляторы не заданы</Text>
+                            </Flex>
+                    ) :(
                     <TableContainer maxH="90ch" overflowY="auto">
                       <Table variant="simple" colorScheme={"gray.400"}>
                         <Thead position="sticky" top="0" bg="white" zIndex="1">
@@ -331,6 +354,7 @@ const percent = `${(100/3)}%`
                         </Tbody>
                       </Table>
                     </TableContainer>
+                    )}
                   </TabPanel>
 
                   {/* Regulation Units Tab */}
@@ -342,6 +366,15 @@ const percent = `${(100/3)}%`
                     >
                       Добавить
                     </Button>
+                    {scheme.sections.length === 0 ? (
+                              <Flex
+                              align="center" // Центрирование по вертикали
+                              justify="center" // Центрирование по горизонтали
+                              height="100%" // Высота на весь экран
+                            >
+                              <Text fontSize="xl">Регулирующие единицы не заданы</Text>
+                            </Flex>
+                    ) :(
                     <TableContainer maxH="90ch" overflowY="auto">
                       <Table variant="simple" colorScheme={"gray.400"}>
                         <Thead position="sticky" top="0" bg="white" zIndex="1">
@@ -456,6 +489,7 @@ const percent = `${(100/3)}%`
                         </Tbody>
                       </Table>
                     </TableContainer>
+                    )}
                   </TabPanel>
                 </TabPanels>
               </Tabs>
@@ -580,6 +614,7 @@ const percent = `${(100/3)}%`
           <ModalCloseButton />
           <ModalBody>
             {freeRegulators.map((regulator) => (
+              
               <Checkbox
                 key={regulator.id}
                 isChecked={selectedRegulatorIds.includes(regulator.id)}

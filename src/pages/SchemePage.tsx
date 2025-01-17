@@ -5,8 +5,6 @@ import {
   Text,
   Button,
   Input,
-  List,
-  ListItem,
   Heading,
   Modal,
   ModalOverlay,
@@ -16,7 +14,14 @@ import {
   ModalBody,
   ModalFooter,
   VStack,
-  Tooltip,
+  TableContainer,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  ButtonGroup,
 } from "@chakra-ui/react";
 import { getAllSchemes, createScheme } from "../api/schemeDataApi";
 import SchemeDetail from "../components/scheme-data/SchemeDetail";
@@ -58,61 +63,73 @@ const SchemePage: React.FC = () => {
 
   return (
     <Flex height="100%">
-      <VStack p={4} spacing={4} align="stretch" width="50%" height="100%">
+      <VStack p={4} spacing={4} align="stretch" width="30%" height="100%">
         <Heading as="h2" size="xl" mb={4}>
           Схемы
         </Heading>
 
-
-        <Flex borderWidth="1px" borderRadius="lg" overflow="hidden" p={4}>
-          <Tooltip label="Добавить новую схему" placement="bottom">
-            <Button
-              onClick={() => setIsModalOpen(true)}
-              variant="solid"
-              aria-label="Add group"
-              colorScheme="blue"
-              borderRadius="md"
-            >
-              Добавить новую схему
-            </Button>
-          </Tooltip>
+        <Flex borderWidth="1px" borderRadius="lg" overflow="hidden" p={2}>
+          <Button
+            onClick={() => setIsModalOpen(true)}
+            variant="solid"
+            aria-label="Add group"
+            colorScheme="blue"
+            borderRadius="md"
+          >
+            Добавить новую схему
+          </Button>
         </Flex>
-
-        <Heading fontSize="2xl" mb={4}>
-          Список схем
-        </Heading>
-        <List spacing={3}>
-          {schemes.map((scheme) => (
-            <ListItem key={scheme.id}>
-              <Flex>
-                <Button
-                  onClick={() => handleSchemeSelect(scheme.id)}
-                  variant="outline"
-                  width="full"
-                  _hover={{ backgroundColor: "blue.600" }}
-                  color={selectedSchemeId === scheme.id ? "white" : "black"}
-                  backgroundColor={
-                    selectedSchemeId === scheme.id ? "blue.500" : "transparent"
-                  }
-                  fontWeight="medium"
-                  justifyContent="flex-start"
-                  fontSize="xl"
-                  _active={{ backgroundColor: "blue.800" }}
-                >
-                  {scheme.name}
-                </Button>
-              </Flex>
-            </ListItem>
-          ))}
-        </List>
+        <TableContainer>
+          <Table variant="simple">
+            <Thead>
+              <Tr>
+                <Th>Схема</Th>
+                <Th>Действия</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {schemes.map((scheme) => (
+                <Tr key={scheme.id}>
+                  <Td>{scheme.name}</Td>
+                  <Td>
+                    <ButtonGroup display="flex">
+                      <Button
+                        variant="outline"
+                        aria-label="Open group"
+                        borderColor="blue.500"
+                        textColor={"blue.500"}
+                        borderRadius="md"
+                        size="sm"
+                        onClick={() => handleSchemeSelect(scheme.id)}
+                      >
+                        Открыть
+                      </Button>
+                      <Button
+                        variant="outline"
+                        aria-label="Open group"
+                        borderColor="red.500"
+                        textColor={"red.500"}
+                        borderRadius="md"
+                        size="sm"
+                        onClick={() => handleSchemeSelect(scheme.id)}
+                      >
+                        Удалить
+                      </Button>
+                    </ButtonGroup>
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </TableContainer>
       </VStack>
       <Box
-        width="50%"
+        width="70%"
         height="100%"
         border="2px"
         borderColor="gray.300"
         borderRadius="md"
-        p={4}
+       p={4}
       >
         {selectedSchemeId ? (
           <SchemeDetail schemeId={selectedSchemeId} />
