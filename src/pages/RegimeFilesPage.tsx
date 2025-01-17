@@ -66,7 +66,7 @@ const RegimeFilesPage: React.FC = () => {
   const handleDelete = async (id: string) => {
     try {
       await deleteFile(id);
-      setFiles(files.filter((file) => file.id !== id)); // Удаление из локального состояния
+      setFiles(files.filter((file) => file.id !== id));
     } catch (error) {
       console.error("Error deleting file:", error);
     }
