@@ -201,7 +201,7 @@ const percent = `${(100/3)}%`
       };
 
   return (
-    <Box >
+    <Box>
       {loading ? (
         <Flex
           align="center" // Центрирование по вертикали
@@ -211,22 +211,28 @@ const percent = `${(100/3)}%`
           <Spinner size="xl" />
         </Flex>
       ) : (
-        <Box maxHeight={"100vh"} >
+        <Box maxHeight={"100vh"}>
           {scheme ? (
             <Box maxHeight={"100vh"} overflowY="auto">
               <Heading fontSize="2xl" mb={4}>
                 {scheme.name}
               </Heading>
-              <Flex borderWidth="1px" borderRadius="lg" overflow="hidden" p={2} mb={4}>
-              <Button
-                onClick={() => setIsFilesModalOpen(true)}
-                variant="solid"
-                aria-label="Add group"
-                colorScheme="blue"
-                borderRadius="md"
+              <Flex
+                borderWidth="1px"
+                borderRadius="lg"
+                overflow="hidden"
+                p={2}
+                mb={4}
               >
-                Считать данные из файла
-              </Button>
+                <Button
+                  onClick={() => setIsFilesModalOpen(true)}
+                  variant="solid"
+                  aria-label="Add group"
+                  colorScheme="blue"
+                  borderRadius="md"
+                >
+                  Считать данные из файла
+                </Button>
               </Flex>
               <Tabs isLazy size="md" variant="enclosed">
                 <TabList>
@@ -246,54 +252,58 @@ const percent = `${(100/3)}%`
                       Добавить
                     </Button>
                     {scheme.sections.length === 0 ? (
-                              <Flex
-                              align="center" // Центрирование по вертикали
-                              justify="center" // Центрирование по горизонтали
-                              height="100%" // Высота на весь экран
-                            >
-                              <Text fontSize="xl">Сечения не заданы</Text>
-                            </Flex>
-                    ) :(
-
-                    <TableContainer maxH="100ch" overflowY="auto">
-                      <Table variant="simple" colorScheme={"gray.400"}>
-                        <Thead position="sticky" top="0" bg="white" zIndex="1">
-                          <Tr>
-                            <Th
-                              width="10%"
-                              bg={"gray.500"}
-                              textColor={"white"}
-                              textAlign="left"
-                              border={"1px solid"}
-                            >
-                              Номер
-                            </Th>
-                            <Th
-                              width="90%"
-                              bg={"gray.500"}
-                              textColor={"white"}
-                              textAlign="left"
-                              border={"1px solid"}
-                            >
-                              Название
-                            </Th>
-                          </Tr>
-                        </Thead>
-                        <Tbody>
-                          {scheme.sections.map((section) => (
-                            <Tr key={section.id}>
-                              <Td textAlign="left">{section.number}</Td>
-                              <Td
+                      <Flex
+                        align="center" // Центрирование по вертикали
+                        justify="center" // Центрирование по горизонтали
+                        height="100%" // Высота на весь экран
+                      >
+                        <Text fontSize="xl">Сечения не заданы</Text>
+                      </Flex>
+                    ) : (
+                      <TableContainer maxH="100ch" overflowY="auto">
+                        <Table variant="simple" colorScheme={"gray.400"}>
+                          <Thead
+                            position="sticky"
+                            top="0"
+                            bg="white"
+                            zIndex="1"
+                          >
+                            <Tr>
+                              <Th
+                                width="10%"
+                                bg={"gray.500"}
+                                textColor={"white"}
                                 textAlign="left"
-                                style={{ whiteSpace: "normal" }}
+                                border={"1px solid"}
                               >
-                                {section.name}
-                              </Td>
+                                Номер
+                              </Th>
+                              <Th
+                                width="90%"
+                                bg={"gray.500"}
+                                textColor={"white"}
+                                textAlign="left"
+                                border={"1px solid"}
+                              >
+                                Название
+                              </Th>
                             </Tr>
-                          ))}
-                        </Tbody>
-                      </Table>
-                    </TableContainer>
+                          </Thead>
+                          <Tbody>
+                            {scheme.sections.map((section) => (
+                              <Tr key={section.id}>
+                                <Td textAlign="left">{section.number}</Td>
+                                <Td
+                                  textAlign="left"
+                                  style={{ whiteSpace: "normal" }}
+                                >
+                                  {section.name}
+                                </Td>
+                              </Tr>
+                            ))}
+                          </Tbody>
+                        </Table>
+                      </TableContainer>
                     )}
                   </TabPanel>
 
@@ -306,54 +316,59 @@ const percent = `${(100/3)}%`
                     >
                       Добавить
                     </Button>
-                    {scheme.sections.length === 0 ? (
-                              <Flex
-                              align="center" // Центрирование по вертикали
-                              justify="center" // Центрирование по горизонтали
-                              height="100%" // Высота на весь экран
-                            >
-                              <Text fontSize="xl">Регуляторы не заданы</Text>
-                            </Flex>
-                    ) :(
-                    <TableContainer maxH="90ch" overflowY="auto">
-                      <Table variant="simple" colorScheme={"gray.400"}>
-                        <Thead position="sticky" top="0" bg="white" zIndex="1">
-                          <Tr>
-                            <Th
-                              width="10%"
-                              bg={"gray.500"}
-                              textColor={"white"}
-                              textAlign="left"
-                              border={"1px solid"}
-                            >
-                              Номер
-                            </Th>
-                            <Th
-                              width="90%"
-                              bg={"gray.500"}
-                              textColor={"white"}
-                              textAlign="left"
-                              border={"1px solid"}
-                            >
-                              Название
-                            </Th>
-                          </Tr>
-                        </Thead>
-                        <Tbody>
-                          {scheme.regulators.map((regulator) => (
-                            <Tr key={regulator.id}>
-                              <Td textAlign="left">{regulator.number}</Td>
-                              <Td
+                    {scheme.regulators.length === 0 ? (
+                      <Flex
+                        align="center" // Центрирование по вертикали
+                        justify="center" // Центрирование по горизонтали
+                        height="100%" // Высота на весь экран
+                      >
+                        <Text fontSize="xl">Регуляторы не заданы</Text>
+                      </Flex>
+                    ) : (
+                      <TableContainer maxH="90ch" overflowY="auto">
+                        <Table variant="simple" colorScheme={"gray.400"}>
+                          <Thead
+                            position="sticky"
+                            top="0"
+                            bg="white"
+                            zIndex="1"
+                          >
+                            <Tr>
+                              <Th
+                                width="10%"
+                                bg={"gray.500"}
+                                textColor={"white"}
                                 textAlign="left"
-                                style={{ whiteSpace: "normal" }}
+                                border={"1px solid"}
                               >
-                                {regulator.name}
-                              </Td>
+                                Номер
+                              </Th>
+                              <Th
+                                width="90%"
+                                bg={"gray.500"}
+                                textColor={"white"}
+                                textAlign="left"
+                                border={"1px solid"}
+                              >
+                                Название
+                              </Th>
                             </Tr>
-                          ))}
-                        </Tbody>
-                      </Table>
-                    </TableContainer>
+                          </Thead>
+                          <Tbody>
+                            {scheme.regulators.map((regulator) => (
+                              <Tr key={regulator.id}>
+                                <Td textAlign="left">{regulator.number}</Td>
+                                <Td
+                                  textAlign="left"
+                                  style={{ whiteSpace: "normal" }}
+                                >
+                                  {regulator.name}
+                                </Td>
+                              </Tr>
+                            ))}
+                          </Tbody>
+                        </Table>
+                      </TableContainer>
                     )}
                   </TabPanel>
 
@@ -366,129 +381,138 @@ const percent = `${(100/3)}%`
                     >
                       Добавить
                     </Button>
-                    {scheme.sections.length === 0 ? (
-                              <Flex
-                              align="center" // Центрирование по вертикали
-                              justify="center" // Центрирование по горизонтали
-                              height="100%" // Высота на весь экран
-                            >
-                              <Text fontSize="xl">Регулирующие единицы не заданы</Text>
-                            </Flex>
-                    ) :(
-                    <TableContainer maxH="90ch" overflowY="auto">
-                      <Table variant="simple" colorScheme={"gray.400"}>
-                        <Thead position="sticky" top="0" bg="white" zIndex="1">
-                          <Tr>
-                            <Th
-                              textAlign="left"
-                              width={percent}
-                              bg={"gray.500"}
-                              textColor={"white"}
-                              rowSpan={2}
-                              border={"1px solid"}
-                            >
-                              Название
-                            </Th>
-                            <Th
-                              textAlign="left"
-                              width={percent}
-                              bg={"gray.500"}
-                              textColor={"white"}
-                              colSpan={2}
-                              border={"1px solid"}
-                            >
-                              Регуляторы
-                            </Th>
-                            <Th
-                              width={percent}
-                              bg={"gray.500"}
-                              textColor={"white"}
-                              textAlign="left"
-                              rowSpan={2}
-                              border={"1px solid"}
-                            >
-                              Действия
-                            </Th>
-                          </Tr>
-                          <Tr>
-                            <Th
-                              textAlign="left"
-                              width="10%"
-                              bg={"gray.500"}
-                              textColor={"white"}
-                              border={"1px solid"}
-                            >
-                              Номер
-                            </Th>
-                            <Th
-                              textAlign="left"
-                              width="90%"
-                              bg={"gray.500"}
-                              textColor={"white"}
-                              border={"1px solid"}
-                            >
-                              Название
-                            </Th>
-                          </Tr>
-                        </Thead>
-                        <Tbody>
-                          {scheme.regulationUnits.map((unit) => {
-                            const { name, regulators } = unit;
-                            return regulators.length > 0 ? (
-                              regulators.map((regulator, index) => (
-                                <Tr key={regulator.id}>
-                                  {index === 0 && (
-                                    <Td rowSpan={regulators.length}>{name}</Td>
-                                  )}
-                                  <Td>{regulator.number}</Td>
-                                  <Td>{regulator.name}</Td>
-                                  {index === 0 && (
-                                    <Td rowSpan={regulators.length}>
-                                      {" "}
-                                      <Button
-                                        onClick={() =>
-                                          openRegulatorWithUnitModal(unit.id)
-                                        }
-                                        variant="outline"
-                                        aria-label="Open group"
-                                        borderColor="blue.500"
-                                        textColor={"blue.500"}
-                                        borderRadius="md"
-                                        size="sm"
-                                        style={{ whiteSpace: "normal" }}
-                                      >
-                                        Добавить регуляторы
-                                      </Button>
-                                    </Td>
-                                  )}
+                    {scheme.regulationUnits.length === 0 ? (
+                      <Flex
+                        align="center" // Центрирование по вертикали
+                        justify="center" // Центрирование по горизонтали
+                        height="100%" // Высота на весь экран
+                      >
+                        <Text fontSize="xl">
+                          Регулирующие единицы не заданы
+                        </Text>
+                      </Flex>
+                    ) : (
+                      <TableContainer maxH="90ch" overflowY="auto">
+                        <Table variant="simple" colorScheme={"gray.400"}>
+                          <Thead
+                            position="sticky"
+                            top="0"
+                            bg="white"
+                            zIndex="1"
+                          >
+                            <Tr>
+                              <Th
+                                textAlign="left"
+                                width={percent}
+                                bg={"gray.500"}
+                                textColor={"white"}
+                                rowSpan={2}
+                                border={"1px solid"}
+                              >
+                                Название
+                              </Th>
+                              <Th
+                                textAlign="left"
+                                width={percent}
+                                bg={"gray.500"}
+                                textColor={"white"}
+                                colSpan={2}
+                                border={"1px solid"}
+                              >
+                                Регуляторы
+                              </Th>
+                              <Th
+                                width={percent}
+                                bg={"gray.500"}
+                                textColor={"white"}
+                                textAlign="left"
+                                rowSpan={2}
+                                border={"1px solid"}
+                              >
+                                Действия
+                              </Th>
+                            </Tr>
+                            <Tr>
+                              <Th
+                                textAlign="left"
+                                width="10%"
+                                bg={"gray.500"}
+                                textColor={"white"}
+                                border={"1px solid"}
+                              >
+                                Номер
+                              </Th>
+                              <Th
+                                textAlign="left"
+                                width="90%"
+                                bg={"gray.500"}
+                                textColor={"white"}
+                                border={"1px solid"}
+                              >
+                                Название
+                              </Th>
+                            </Tr>
+                          </Thead>
+                          <Tbody>
+                            {scheme.regulationUnits.map((unit) => {
+                              const { name, regulators } = unit;
+                              return regulators.length > 0 ? (
+                                regulators.map((regulator, index) => (
+                                  <Tr key={regulator.id}>
+                                    {index === 0 && (
+                                      <Td rowSpan={regulators.length}>
+                                        {name}
+                                      </Td>
+                                    )}
+                                    <Td>{regulator.number}</Td>
+                                    <Td>{regulator.name}</Td>
+                                    {index === 0 && (
+                                      <Td rowSpan={regulators.length}>
+                                        {" "}
+                                        <Button
+                                          onClick={() =>
+                                            openRegulatorWithUnitModal(unit.id)
+                                          }
+                                          variant="outline"
+                                          aria-label="Open group"
+                                          borderColor="blue.500"
+                                          textColor={"blue.500"}
+                                          borderRadius="md"
+                                          size="sm"
+                                          style={{ whiteSpace: "normal" }}
+                                        >
+                                          Добавить регуляторы
+                                        </Button>
+                                      </Td>
+                                    )}
+                                  </Tr>
+                                ))
+                              ) : (
+                                <Tr key={unit.id}>
+                                  <Td>{name}</Td>
+                                  <Td colSpan={2}>Регуляторы не заданы</Td>
+                                  <Td>
+                                    <Button
+                                      onClick={() =>
+                                        openRegulatorWithUnitModal(unit.id)
+                                      }
+                                      variant="outline"
+                                      aria-label="Open group"
+                                      borderColor="blue.500"
+                                      textColor={"blue.500"}
+                                      borderRadius="md"
+                                      size="sm"
+                                      style={{ whiteSpace: "normal" }}
+                                    >
+                                      Добавить регуляторы
+                                    </Button>
+                                  </Td>
                                 </Tr>
-                              ))
-                            ) : (
-                              <Tr key={unit.id}>
-                                <Td>{name}</Td>
-                                <Td colSpan={2}>No Regulators</Td>
-                                <Td>
-                                  <Button
-                                    onClick={() =>
-                                      openRegulatorWithUnitModal(unit.id)
-                                    }
-                                    variant="outline"
-                                    aria-label="Open group"
-                                    borderColor="blue.500"
-                                    textColor={"blue.500"}
-                                    borderRadius="md"
-                                    size="sm"
-                                    style={{ whiteSpace: "normal" }}
-                                  >
-                                    Добавить регуляторы
-                                  </Button>
-                                </Td>
-                              </Tr>
-                            );
-                          })}
-                        </Tbody>
-                      </Table>
-                    </TableContainer>
+                              );
+                            })}
+                          </Tbody>
+                        </Table>
+                      </TableContainer>
                     )}
                   </TabPanel>
                 </TabPanels>
@@ -605,6 +629,8 @@ const percent = `${(100/3)}%`
       <Modal
         isOpen={isRegulatorWithUnitModalOpen}
         onClose={() => setIsRegulatorWithUnitModalOpen(false)}
+        scrollBehavior = "inside"
+        size="xl"
       >
         <ModalOverlay />
         <ModalContent>
@@ -613,16 +639,36 @@ const percent = `${(100/3)}%`
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {freeRegulators.map((regulator) => (
-              
-              <Checkbox
-                key={regulator.id}
-                isChecked={selectedRegulatorIds.includes(regulator.id)}
-                onChange={() => handleRegulatorSelection(regulator.id)}
-              >
-                {regulator.name}
-              </Checkbox>
-            ))}
+            <TableContainer>
+              <Table variant="simple">
+                <Thead>
+                  <Tr>
+                    <Th></Th>
+                    <Th>Номер</Th>
+                    <Th>Название</Th>
+                  </Tr>
+                </Thead>
+                <Tbody >
+                  {freeRegulators.map((regulator) => (
+                    <Tr key={regulator.id}>
+                      <Td>
+                        <Checkbox
+                          key={regulator.id}
+                          isChecked={selectedRegulatorIds.includes(
+                            regulator.id
+                          )}
+                          onChange={() =>
+                            handleRegulatorSelection(regulator.id)
+                          }
+                        />
+                      </Td>
+                      <Td>{regulator.number}</Td>
+                      <Td>{regulator.name}</Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+              </Table>
+            </TableContainer>
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="blue" onClick={handleAddSelectedRegulators}>
@@ -660,7 +706,13 @@ const percent = `${(100/3)}%`
             </Select>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" onClick={() =>{readFile(); setIsFilesModalOpen(false)}}>
+            <Button
+              colorScheme="blue"
+              onClick={() => {
+                readFile();
+                setIsFilesModalOpen(false);
+              }}
+            >
               Добавить
             </Button>
             <Button variant="ghost" onClick={() => setIsFilesModalOpen(false)}>

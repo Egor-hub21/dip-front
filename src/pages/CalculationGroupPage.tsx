@@ -28,6 +28,8 @@ import {
   Select,
   Flex,
   Tooltip,
+  FormControl,
+  FormLabel,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import {
@@ -136,7 +138,7 @@ const CalculationGroupPage: React.FC = () => {
   }
 
   return (
-    <VStack  p={4} spacing={4} align="stretch">
+    <VStack p={4} spacing={4} align="stretch">
       <Heading as="h2" size="xl" mb={4}>
         {group.name}
       </Heading>
@@ -162,21 +164,21 @@ const CalculationGroupPage: React.FC = () => {
                   {calculation.name} ({calculation.fileName})
                 </Text>
                 <ActionButtonWithPopover
-                      buttonLabel="Удалить"
-                      buttonVariant="outline"
-                      buttonColor="red.500"
-                      confirmationText="Вы уверены, что хотите удалить эту группу?"
-                      confirmationHeader="Подтверждение"
-                      confirmButtonText="Да"
-                      cancelButtonText="Нет"
-                      confirmButtonColorScheme="red"
-                      cancelButtonColorScheme="gray"
-                      buttonSize="xs"
-                      onConfirm={() => handleDelete(calculation.id)}
-                      isOpen={popoverOpenIndex === index}
-                      onOpen={() => setPopoverOpenIndex(index)}
-                      onClose={() => setPopoverOpenIndex(null)}
-                    />
+                  buttonLabel="Удалить"
+                  buttonVariant="outline"
+                  buttonColor="red.500"
+                  confirmationText="Вы уверены, что хотите удалить эту группу?"
+                  confirmationHeader="Подтверждение"
+                  confirmButtonText="Да"
+                  cancelButtonText="Нет"
+                  confirmButtonColorScheme="red"
+                  cancelButtonColorScheme="gray"
+                  buttonSize="xs"
+                  onConfirm={() => handleDelete(calculation.id)}
+                  isOpen={popoverOpenIndex === index}
+                  onOpen={() => setPopoverOpenIndex(index)}
+                  onClose={() => setPopoverOpenIndex(null)}
+                />
               </Flex>
               <AccordionButton
                 onClick={() => handleCalculationClick(calculation.id)}
@@ -244,24 +246,34 @@ const CalculationGroupPage: React.FC = () => {
           <ModalHeader>Добавить расчет</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Input
-              value={calculationName}
-              onChange={(e) => setCalculationName(e.target.value)}
-              placeholder="Название расчета"
-              mb={3}
-            />
-            <Select
-              value={selectedFileId}
-              onChange={(e) => setSelectedFileId(e.target.value)}
-              placeholder="Выберите файл"
-              mb={3}
-            >
-              {files.map((file) => (
-                <option key={file.id} value={file.id}>
-                  {file.name}
-                </option>
-              ))}
-            </Select>
+            <FormControl mb={4}>
+              <FormLabel htmlFor="calculationName" fontSize="lg" fontWeight="bold">
+                Название расчета
+              </FormLabel>
+              <Input
+                value={calculationName}
+                onChange={(e) => setCalculationName(e.target.value)}
+                placeholder="Название расчета"
+                mb={3}
+              />
+            </FormControl>
+            <FormControl mb={4}>
+              <FormLabel htmlFor="file" fontSize="lg" fontWeight="bold">
+                Файл
+              </FormLabel>
+              <Select
+                value={selectedFileId}
+                onChange={(e) => setSelectedFileId(e.target.value)}
+                placeholder="Выберите файл"
+                mb={3}
+              >
+                {files.map((file) => (
+                  <option key={file.id} value={file.id}>
+                    {file.name}
+                  </option>
+                ))}
+              </Select>
+            </FormControl>
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="blue" onClick={handleAddCalculation}>
